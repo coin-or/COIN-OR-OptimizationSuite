@@ -1,0 +1,101 @@
+CoinAll
+=======
+
+The goal of this project is to provide an environment for building a
+completely interoperable set of binaries consisting of all COIN-OR projects that
+use the COIN-OR configuration and build system.
+
+Below are the standard COIN-OR installation procedures.
+
+**********************************************************************
+***                         DOWNLOAD                               ***
+**********************************************************************
+
+You can obtain the source code for the CoinAll package in two ways:
+
+1. Obtain the source directly from the COIN-OR subversion repository
+   (recommended).  For this you needs the program 'svn' installed on
+   your machine, and output of "svn --version" must contain 
+   "handles 'https' scheme".
+
+   Assuming that you want to download the code into a subdirectory
+   "CoinAll", you type
+
+   svn co https://projects.coin-or.org/svn/CoinBinary/CoinAll/stable/1.6 CoinAll
+
+2. Download the tarball from http://www.coin-or.org/download/source/CoinAll and
+   extract it, for example, with
+
+   gunzip CoinAll-1.5.0.tgz
+   tar xvf CoinAll-1.5.0.tar
+
+   More detailed download instructions can be found at
+
+   https://projects.coin-or.org/BuildTools/wiki/user-download
+
+**********************************************************************
+***                        CONFIGURATION                           ***
+**********************************************************************
+
+First, if you want to compile Ipopt, you need to make sure that Blas, Lapack
+and either Mumps or certain packages from the Harwell subroutine library are
+available (see the INSTALL.* files in ThirdParty/*). You must also download
+any other optional third party packages before configuration. It is
+recommended to download glpk, as this enables additional functionality in a
+number of COIN-OR packages.
+
+Go into the directory that you just downloaded or extracted (e.g., CoinAll)
+and type
+
+   ./configure
+
+Note that you might have to specify additional options, in case you
+don't want to use the default choices that configure makes (e.g.,
+compilers).  Please visit
+
+   https://projects.coin-or.org/BuildTools/wiki/user-configure
+
+for more information.
+
+If everything went fine, you will see at the end of the output
+
+   "Main configuration of CoinAll successful"
+
+**********************************************************************
+***                COMPILATION AND INSTALLATION                    ***
+**********************************************************************
+
+In the directory where you ran the configure script:
+
+1. Compile the code by typing
+
+   make
+
+2. To test if the code in the projects works, you can type
+
+   make test
+
+3. To install the code, you type
+
+   make install
+
+   After this, you will find the executables, libraries and header
+   files in the "bin", "lib" and "include" subdirectory, respectively.
+
+More information on the compilation and installation can be found at
+
+   https://projects.coin-or.org/BuildTools/wiki/user-compile
+
+**********************************************************************
+***                     USING THE LIBRARIES                        ***
+**********************************************************************
+
+Now you can link your own code with the installed libraries.  You can
+find examples for a Project Prjct in 
+
+   Prjct/examples/
+
+subdirectory (for those, that provide examples), see also the
+information at
+
+   https://projects.coin-or.org/BuildTools/wiki/user-examples

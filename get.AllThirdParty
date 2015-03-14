@@ -1,0 +1,10 @@
+#!/bin/sh
+
+for dir in ThirdParty/*
+do
+  if [ -d $dir ]; then
+     cd $dir
+     ./get.* -patch
+     cd ../..
+  fi
+done
