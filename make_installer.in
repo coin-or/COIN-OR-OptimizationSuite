@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [[ $1 == '' ]]; then
+    echo "Must specify platform type...exiting"
+    exit
+fi 
+if [[ $2 == '' ]]; then
+    echo "Must specify compiler...exiting"
+    exit
+fi 
+VERSION=@VERSION@
+SVN_REV=@COINALL_SVN_REV@
+cd @top_srcdir@/Installer
+FOO=@prefix@
+FOODIR=${FOO##*/}
+NUMBER_OF_DOTS=$((`echo $VERSION | sed 's/[^.]//g' | wc -m`-1))
+if [[ $NUMBER_OF_DOTS != 2 ]]; then
+    sed "s/platform-compiler/$2/g;s/build-dir/${FOODIR}/g;s/0.0.0.0/${VERSION}-R${SVN_REV}/" $1.mpi > $2.mpi
+else
+    sed "s/platform-compiler/$2/g;s/build-dir/${FOODIR}/g;s/0.0.0.0/${VERSION}/" $1.mpi > $2.mpi
+fi
+
+if [[ $OSTYPE == 'msys' ]] || [[ $OSTYPE == 'cygwin' ]]; then
+    run installjammer --build $2.mpi
+else
+    installjammer --build $2.mpi
+fi
+

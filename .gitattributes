@@ -1,0 +1,65 @@
+* text=auto !eol
+/AUTHORS -text
+COIN[!!-~]Optimization[!!-~]Suite/COIN[!!-~]Optimization[!!-~]Suite.xcodeproj/project.pbxproj -text
+COIN[!!-~]Optimization[!!-~]Suite/COIN[!!-~]Optimization[!!-~]Suite.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
+COIN[!!-~]Optimization[!!-~]Suite/COIN[!!-~]Optimization[!!-~]Suite.xcodeproj/project.xcworkspace/xcuserdata/ted.xcuserdatad/UserInterfaceState.xcuserstate -text
+COIN[!!-~]Optimization[!!-~]Suite/COIN[!!-~]Optimization[!!-~]Suite.xcodeproj/xcuserdata/ted.xcuserdatad/xcschemes/COIN[!!-~]Optimization[!!-~]Suite.xcscheme -text
+/Dependencies -text
+/INSTALL -text
+Installer/confCoinAll.sh -text
+Installer/cygwin.mpi -text
+Installer/files/LICENSE.txt -text
+Installer/files/README -text
+Installer/files/bin/pkg-config.exe -text
+Installer/files/doc/A[!!-~]Gentle[!!-~]Introduction[!!-~]to[!!-~]Optimization[!!-~]Solver[!!-~]Interface.pdf -text
+Installer/files/doc/Introduction[!!-~]to[!!-~]Ipopt.pdf -text
+Installer/files/doc/SYMPHONY-Manual.pdf -text svneol=unset#unset
+Installer/files/doc/Short[!!-~]tutorial[!!-~]Ipopt.pdf -text svneol=unset#unset
+Installer/files/doc/cbcCommandLine.pdf -text svneol=unset#unset
+Installer/files/doc/cbcuserguide.html -text
+Installer/files/doc/reference/Cbc-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Cgl-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Clp-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/CoinUtils-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/DyLP-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Ipopt-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Osi-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Vol-refman.pdf -text svneol=unset#application/pdf
+Installer/files/icons/coin-or.gif -text
+Installer/files/icons/coin-or.ico -text
+Installer/files/icons/coin-or.png -text
+Installer/files/icons/guide.ico -text
+Installer/files/icons/guide.png -text
+Installer/files/icons/terminal.ico -text
+Installer/files/icons/terminal.png -text
+Installer/files/scripts/addPath.sh -text
+Installer/files/scripts/launch.sh -text
+Installer/files/scripts/xdg-open -text
+Installer/linux-x86_32-gcc4.4.5.mpi -text
+Installer/linux-x86_64-gcc4.4.5.mpi -text
+Installer/mingw-dll.mpi -text
+Installer/mingw.mpi -text
+Installer/prepareDoxyConfPDF.sh -text
+Installer/win32-cygwin-gcc4.3.4.mpi -text
+Installer/win32-mingw-gcc4.2.1.mpi -text
+Installer/win32.mpi -text
+MSVisualStudio/v10/CoinAll.sln -text
+MSVisualStudio/v10/CoinAll.suo -text
+MSVisualStudio/v9/CoinAll.sln -text
+MSVisualStudio/v9/CoinAll.suo -text
+/Makefile.am -text
+/Makefile.in -text
+/README -text
+/compile -text
+/config.guess -text
+/config.sub -text
+/configure -text
+/configure.ac -text
+/depcomp -text
+/get.AllThirdParty -text
+/install-sh -text
+/ltmain.sh -text
+/make_doxydocs.in -text
+/make_installer.in -text
+/missing -text
+scripts/msvc9setup.py -text
