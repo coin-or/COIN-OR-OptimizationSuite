@@ -1,0 +1,54 @@
+* text=auto !eol
+/Dependencies -text
+/INSTALL -text
+Installer/confCoinAll.sh -text
+Installer/cygwin.mpi -text
+Installer/files/LICENSE.txt -text
+Installer/files/README -text
+Installer/files/bin/pkg-config.exe -text
+Installer/files/doc/A[!!-~]Gentle[!!-~]Introduction[!!-~]to[!!-~]Optimization[!!-~]Solver[!!-~]Interface.pdf -text
+Installer/files/doc/Introduction[!!-~]to[!!-~]Ipopt.pdf -text
+Installer/files/doc/SYMPHONY-Manual.pdf -text
+Installer/files/doc/Short[!!-~]tutorial[!!-~]Ipopt.pdf -text svneol=unset#unset
+Installer/files/doc/cbcCommandLine.pdf -text svneol=unset#unset
+Installer/files/doc/cbcuserguide.html -text
+Installer/files/doc/reference/Cbc-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Cgl-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Clp-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/CoinUtils-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/DyLP-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Ipopt-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Osi-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Vol-refman.pdf -text svneol=unset#application/pdf
+Installer/files/icons/coin-or.gif -text
+Installer/files/icons/coin-or.ico -text
+Installer/files/icons/coin-or.png -text
+Installer/files/icons/guide.ico -text
+Installer/files/icons/guide.png -text
+Installer/files/icons/terminal.ico -text
+Installer/files/icons/terminal.png -text
+Installer/files/scripts/addPath.sh -text
+Installer/files/scripts/launch.sh -text
+Installer/files/scripts/xdg-open -text
+Installer/mingw.mpi -text
+Installer/prepareDoxyConfPDF.sh -text
+Installer/win32.mpi -text
+MSVisualStudio/v10/CoinAll.sln -text
+MSVisualStudio/v10/CoinAll.suo -text
+MSVisualStudio/v9/CoinAll.sln -text
+MSVisualStudio/v9/CoinAll.suo -text
+/Makefile.am -text
+/Makefile.in -text
+/README -text
+/compile -text
+/config.guess -text
+/config.sub -text
+/configure -text
+/configure.ac -text
+/depcomp -text
+/get.AllThirdParty -text
+/install-sh -text
+/ltmain.sh -text
+/make_doxydocs.in -text
+/make_installer.in -text
+/missing -text
