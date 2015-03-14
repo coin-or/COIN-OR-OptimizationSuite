@@ -1,0 +1,18 @@
+* text=auto !eol
+/Externals -text
+/INSTALL -text
+/LICENSE -text
+/Makefile.am -text
+/Makefile.in -text
+/README -text
+/compile -text
+/config.guess -text
+/config.sub -text
+/configure -text
+/configure.ac -text
+/depcomp -text
+doxydoc/doxygen.conf -text
+/get.AllThirdParty -text
+/install-sh -text
+/ltmain.sh -text
+/missing -text
