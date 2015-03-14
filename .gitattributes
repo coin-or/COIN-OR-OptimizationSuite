@@ -1,0 +1,18 @@
+* text=auto !eol
+/Externals -text
+/INSTALL -text
+MSVisualStudio/v8/CoinAll.sln -text
+MSVisualStudio/v8/CoinAll.suo -text
+/Makefile.am -text
+/Makefile.in -text
+/README -text
+/compile -text
+/config.guess -text
+/config.sub -text
+/configure -text
+/configure.ac -text
+/depcomp -text
+/get.AllThirdParty -text
+/install-sh -text
+/ltmain.sh -text
+/missing -text
