@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in CoinUtils Osi Cgl Clp Cbc DyLP Vol Ipopt; do
+for i in CoinUtils Osi Clp DyLP Vol Cgl Cbc Smi Bcp FlopCpp Ipopt Alps Bcps Blis Dip Bonmin Couenne OS; do
     cd $i
     echo Making doxydocs in $i
     cat doxydoc/doxygen.conf |

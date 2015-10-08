@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([CoinAll],[1.8],[https://projects.coin-or.org/CoinBinary/newticket])
+AC_INIT([CoinOptimizationSuite],[trunk],[https://projects.coin-or.org/CoinBinary/newticket])
 
 AC_COPYRIGHT([
 Copyright 2006 International Business Machines and others.
@@ -78,8 +78,6 @@ AC_COIN_MAIN_PACKAGEDIR(Dip)
 AC_COIN_MAIN_PACKAGEDIR(Bonmin)
 AC_COIN_MAIN_PACKAGEDIR(Couenne)
 AC_COIN_MAIN_PACKAGEDIR(OS)
-AC_COIN_MAIN_PACKAGEDIR(GiMPy)
-AC_COIN_MAIN_PACKAGEDIR(GrUMPy)
 AC_COIN_MAIN_PACKAGEDIR(examples)
 
 ##############################################################################
@@ -90,7 +88,8 @@ AC_COIN_MAIN_PACKAGEDIR(examples)
 # configuration header file)
 AC_CONFIG_FILES([Makefile
 		 make_installer
-		 make_doxydocs])
+		 make_doxydocs
+		 doxydoc/doxygen.conf])
 
 # Finally, we let configure write all the output...
 AC_COIN_FINALIZE

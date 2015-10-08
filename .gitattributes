@@ -17,13 +17,21 @@ Installer/files/doc/SYMPHONY-Manual.pdf -text svneol=unset#unset
 Installer/files/doc/Short[!!-~]tutorial[!!-~]Ipopt.pdf -text svneol=unset#unset
 Installer/files/doc/cbcCommandLine.pdf -text svneol=unset#unset
 Installer/files/doc/cbcuserguide.html -text
+Installer/files/doc/reference/Alps-refman.pdf -text
+Installer/files/doc/reference/Bcp-refman.pdf -text
+Installer/files/doc/reference/Bcps-refman.pdf -text
+Installer/files/doc/reference/Blis-refman.pdf -text
 Installer/files/doc/reference/Cbc-refman.pdf -text svneol=unset#application/pdf
 Installer/files/doc/reference/Cgl-refman.pdf -text svneol=unset#application/pdf
 Installer/files/doc/reference/Clp-refman.pdf -text svneol=unset#application/pdf
 Installer/files/doc/reference/CoinUtils-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Couenne-refman.pdf -text
 Installer/files/doc/reference/DyLP-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/FlopCpp-refman.pdf -text
 Installer/files/doc/reference/Ipopt-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/OS-refman.pdf -text
 Installer/files/doc/reference/Osi-refman.pdf -text svneol=unset#application/pdf
+Installer/files/doc/reference/Smi-refman.pdf -text
 Installer/files/doc/reference/Vol-refman.pdf -text svneol=unset#application/pdf
 Installer/files/icons/coin-or.gif -text
 Installer/files/icons/coin-or.ico -text
@@ -56,6 +64,7 @@ MSVisualStudio/v9/CoinAll.suo -text
 /configure -text
 /configure.ac -text
 /depcomp -text
+doxydoc/doxygen.conf.in -text
 /get.AllThirdParty -text
 /install-sh -text
 /ltmain.sh -text

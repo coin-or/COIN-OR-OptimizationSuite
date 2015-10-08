@@ -20,19 +20,6 @@ SUBDIRS = $(subdirs)
 #                           Extra Targets                              #
 ########################################################################
 
-test: tests
-
-tests: all
-	for dir in $(subdirs); do \
-	  if test -r $$dir/test/Makefile; then \
-	    (cd $$dir; make test) || exit 1 ; \
-	  fi; \
-	done
-
-unitTests: tests
-
-.PHONY: tests unitTests
-
 thirdparty: asl blas glpk lapack metis mumps
 
 asl: @srcdir@/ThirdParty/ASL/solvers/asl.h
@@ -65,6 +52,23 @@ mumps: @srcdir@/ThirdParty/Mumps/MUMPS/src/mumps_c.c
 @srcdir@/ThirdParty/Mumps/MUMPS/src/mumps_c.c:
 	cd @srcdir@/ThirdParty/Mumps; ./get.Mumps
 
+test: tests
+
+tests: all
+	for dir in $(subdirs); do \
+	  if test -r $$dir/test/Makefile; then \
+	    (cd $$dir; make test) || exit 1 ; \
+	  fi; \
+	done
+
+unitTests: tests
+
+clean-local: clean-doxydoc
+# install-data-local: install-doxydoc
+uninstall-local: uninstall-doxydoc
+
+.PHONY: test tests unitTests doxydoc
+
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
@@ -73,4 +77,5 @@ mumps: @srcdir@/ThirdParty/Mumps/MUMPS/src/mumps_c.c
 DISTCLEANFILES = coin_subdirs.txt
 
 EXTRA_DIST =
+
 include BuildTools/Makemain.inc

@@ -54,9 +54,9 @@ host_triplet = @host@
 DIST_COMMON = README $(am__configure_deps) \
 	$(srcdir)/BuildTools/Makemain.inc $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/make_doxydocs.in \
-	$(srcdir)/make_installer.in $(top_srcdir)/configure AUTHORS \
-	INSTALL compile config.guess config.sub depcomp install-sh \
-	ltmain.sh missing
+	$(srcdir)/make_installer.in $(top_srcdir)/configure \
+	$(top_srcdir)/doxydoc/doxygen.conf.in AUTHORS INSTALL compile \
+	config.guess config.sub depcomp install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_1 = Dependencies
 @HAVE_EXTERNALS_TRUE@am__append_2 = .Dependencies-stamp
 subdir = .
@@ -68,7 +68,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = make_installer make_doxydocs
+CONFIG_CLEAN_FILES = make_installer make_doxydocs doxydoc/doxygen.conf
 SOURCES =
 DIST_SOURCES =
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
@@ -296,6 +296,8 @@ make_installer: $(top_builddir)/config.status $(srcdir)/make_installer.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 make_doxydocs: $(top_builddir)/config.status $(srcdir)/make_doxydocs.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
+doxydoc/doxygen.conf: $(top_builddir)/config.status $(top_srcdir)/doxydoc/doxygen.conf.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -442,7 +444,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/. $(distdir)/BuildTools
+	$(mkdir_p) $(distdir)/. $(distdir)/BuildTools $(distdir)/doxydoc
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -613,7 +615,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic clean-libtool mostlyclean-am
+clean-am: clean-generic clean-libtool clean-local mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -659,14 +661,14 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-local
 
 uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am am--refresh check \
-	check-am clean clean-generic clean-libtool clean-recursive \
-	ctags ctags-recursive dist dist-all dist-bzip2 dist-gzip \
-	dist-shar dist-tarZ dist-zip distcheck distclean \
+	check-am clean clean-generic clean-libtool clean-local \
+	clean-recursive ctags ctags-recursive dist dist-all dist-bzip2 \
+	dist-gzip dist-shar dist-tarZ dist-zip distcheck distclean \
 	distclean-generic distclean-libtool distclean-recursive \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am html html-am info info-am install install-am \
@@ -676,25 +678,13 @@ uninstall-info: uninstall-info-recursive
 	maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-generic \
 	mostlyclean-libtool mostlyclean-recursive pdf pdf-am ps ps-am \
-	tags tags-recursive uninstall uninstall-am uninstall-info-am
+	tags tags-recursive uninstall uninstall-am uninstall-info-am \
+	uninstall-local
 
 
 ########################################################################
 #                           Extra Targets                              #
 ########################################################################
-
-test: tests
-
-tests: all
-	for dir in $(subdirs); do \
-	  if test -r $$dir/test/Makefile; then \
-	    (cd $$dir; make test) || exit 1 ; \
-	  fi; \
-	done
-
-unitTests: tests
-
-.PHONY: tests unitTests
 
 thirdparty: asl blas glpk lapack metis mumps
 
@@ -728,11 +718,32 @@ mumps: @srcdir@/ThirdParty/Mumps/MUMPS/src/mumps_c.c
 @srcdir@/ThirdParty/Mumps/MUMPS/src/mumps_c.c:
 	cd @srcdir@/ThirdParty/Mumps; ./get.Mumps
 
+test: tests
+
+tests: all
+	for dir in $(subdirs); do \
+	  if test -r $$dir/test/Makefile; then \
+	    (cd $$dir; make test) || exit 1 ; \
+	  fi; \
+	done
+
+unitTests: tests
+
+clean-local: clean-doxydoc
+# install-data-local: install-doxydoc
+uninstall-local: uninstall-doxydoc
+
+.PHONY: test tests unitTests doxydoc
+
 doxygen-docs: 
 	if test "$(COIN_HAS_DOXYGEN)" = TRUE; then \
 	  if test -d "doxydoc/"; then \
 	    doxygen doxydoc/doxygen.conf;\
 	  fi;\
+	fi
+
+pdf-doxygen-docs: doxygen-docs
+	if test "$(COIN_HAS_DOXYGEN)" = TRUE; then \
 	  if test -d "doxydoc/latex"; then \
        	    if test "$(COIN_HAS_LATEX)" = TRUE; then \
 	      cd doxydoc/latex;\
