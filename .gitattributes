@@ -12,11 +12,14 @@ Installer/files/LICENSE.txt -text
 Installer/files/README -text
 Installer/files/bin/pkg-config.exe -text
 Installer/files/doc/A[!!-~]Gentle[!!-~]Introduction[!!-~]to[!!-~]Optimization[!!-~]Solver[!!-~]Interface.pdf -text
+Installer/files/doc/Doxygen.html -text
 Installer/files/doc/Introduction[!!-~]to[!!-~]Ipopt.pdf -text
 Installer/files/doc/SYMPHONY-Manual.pdf -text svneol=unset#unset
 Installer/files/doc/Short[!!-~]tutorial[!!-~]Ipopt.pdf -text svneol=unset#unset
+Installer/files/doc/blue_gradient.jpg -text
 Installer/files/doc/cbcCommandLine.pdf -text svneol=unset#unset
 Installer/files/doc/cbcuserguide.html -text
+Installer/files/doc/coin.css -text
 Installer/files/doc/reference/Alps-refman.pdf -text
 Installer/files/doc/reference/Bcp-refman.pdf -text
 Installer/files/doc/reference/Bcps-refman.pdf -text
@@ -26,6 +29,7 @@ Installer/files/doc/reference/Cgl-refman.pdf -text svneol=unset#application/pdf
 Installer/files/doc/reference/Clp-refman.pdf -text svneol=unset#application/pdf
 Installer/files/doc/reference/CoinUtils-refman.pdf -text svneol=unset#application/pdf
 Installer/files/doc/reference/Couenne-refman.pdf -text
+Installer/files/doc/reference/Dip-refman.pdf -text
 Installer/files/doc/reference/DyLP-refman.pdf -text svneol=unset#application/pdf
 Installer/files/doc/reference/FlopCpp-refman.pdf -text
 Installer/files/doc/reference/Ipopt-refman.pdf -text svneol=unset#application/pdf
