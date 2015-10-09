@@ -1,0 +1,118 @@
+BODY  { 
+      background-color: white;
+      font-family: Arial, Helvetica, Univers, Zurich BT, sans-serif; 
+      }
+
+DIV.main-content {
+	margin-left: 2em;
+	margin-right: 2em;
+	margin-bottom: 2ex;
+        }
+
+DIV.footer p {
+	text-align: right;
+	margin-left: 2em;
+	margin-right: 2em;
+	margin-bottom: 2ex;
+	/* color: rgb(180,180,195); */
+	/* font-family: monospace; */
+	font-style: italic;
+	font-size: small;
+	}
+
+p.events {
+	 text-align: center;
+	 font-weight: bold;
+	 }
+
+tr.question {
+	font-weight: bold;
+	}
+
+h4 {
+	margin-left: 5%;
+}
+
+ul.indented {
+	margin-left: 5%;
+}
+
+/* For corporate logo display */
+img.logo {
+	border-style: none;
+	vertical-align: middle;
+	text-align: center;
+}
+
+li.logo {
+	font-size: x-large;
+}
+
+table.logo {
+	vertical-align: middle;
+	text-align: center;
+	border-spacing: 20px;
+}
+
+
+/* ##### Header ##### */
+/* This part adapted from Tierra Verde Dos by haran from OSWD.org */
+
+#header {
+/*  color: rgb(0,0,153);*/
+  color: black;
+  background-image: url(blue_gradient.jpg);
+  background-repeat: repeat-y;
+  vertical-align: center; 
+  text-align: right;
+/*  padding: 0 2.5mm 1ex 4mm; */
+  padding: 0 0 0 0;
+  border-bottom: 2px solid white;
+}
+
+#header h1 {
+  margin-right: 30px;
+}
+
+/* ##### Side Bar ##### */
+/* This part adapted from Tierra Verde Dos by haran from OSWD.org */
+
+#side-bar {
+  font-size: 95%;
+  text-align: left;
+/*  width: 11em; */
+/*  float: left; */
+  clear: left;
+}
+
+#side-bar ul {
+  list-style-type: none;
+  list-style-position: outside;
+  margin: 0;
+  padding: 0;
+}
+
+#side-bar li {
+  margin-left: 1em;
+  padding: 1ex 1em 1ex 0.5ex;
+  border-bottom: 1px solid black;
+}
+
+#side-bar li.main {
+  margin-left: 0;
+}
+
+#side-bar a {
+  color: rgb(0,0,153);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+#side-bar a:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+
+
+
