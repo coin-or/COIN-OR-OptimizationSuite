@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([CoinOptimizationSuite],[trunk],[https://projects.coin-or.org/CoinBinary/newticket])
+AC_INIT([CoinOptimizationSuite],[1.8.0],[https://projects.coin-or.org/CoinBinary/newticket])
 
 AC_COPYRIGHT([
 Copyright 2006 International Business Machines and others.
