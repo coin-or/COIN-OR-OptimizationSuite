@@ -1,5 +1,7 @@
 # COIN-OR OPTIMIZATION SUITE 1.8
 
+[![Build Status](https://travis-ci.org/coin-or/COIN-OR-OptimizationSuite.svg?branch=master)](https://travis-ci.org/coin-or/COIN-OR-OptimizationSuite)
+
 The COIN-OR Optimization Suite is a collection of interoperable open source
 solvers from the respository of open source software maintained by the COIN-OR
 Foundation. It consists of the following projects.
@@ -54,7 +56,7 @@ https://hub.docker.com/r/tkralphs/coinor-optimization-suite/
 
 is another excellent way to use the COIN-OR Optimization Suite. For details on
 how to obtain and use this image, see the project's Github page
-[here](https://github.com/tkralphs/optimization-suite-docker)
+[here](https://github.com/tkralphs/optimization-suite-docker).
 
 ## Installers
 
