@@ -71,7 +71,7 @@ the free Intel compiler redistributable libraries).
 
 There are Homebrew recipes for some projects available [here](https://github.com/coin-or-tools/homebrew-coinor). Just do
 ```
-brew tap coin-or-tools/coin-or
+brew tap coin-or-tools/coinor
 ```
 
 ### Linux 
