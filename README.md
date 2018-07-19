@@ -408,7 +408,7 @@ To build from source, there is a script that fetches dependent projects
 and builds automatically. To get the script, do
 
 ```
-git clone --branch=stable/1.8 https://github.com/coin-or-tools/BuildTools/
+git clone --branch=stable/0.8 https://github.com/coin-or-tools/BuildTools/
 ```
 
 and then execute
