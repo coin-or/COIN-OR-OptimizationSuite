@@ -16,9 +16,9 @@ Data/Stochastic   https://projects.coin-or.org/svn/Data/Stochastic/trunk
 CoinUtils         https://projects.coin-or.org/svn/CoinUtils/trunk/CoinUtils
 Osi               https://projects.coin-or.org/svn/Osi/trunk/Osi
 Clp               https://projects.coin-or.org/svn/Clp/trunk/Clp
-FlopCpp           https://projects.coin-or.org/svn/FlopC++/trunk/FlopCpp
+FlopCpp           https://github.com/coin-or/FlopCpp master
 DyLP              https://projects.coin-or.org/svn/DyLP/trunk/DyLP
-Vol               https://projects.coin-or.org/svn/Vol/trunk/Vol
+Vol               https://github.com/coin-or/Vol master
 Cgl               https://projects.coin-or.org/svn/Cgl/trunk/Cgl
 SYMPHONY          https://projects.coin-or.org/svn/SYMPHONY/trunk/SYMPHONY
 Cbc               https://projects.coin-or.org/svn/Cbc/trunk/Cbc
