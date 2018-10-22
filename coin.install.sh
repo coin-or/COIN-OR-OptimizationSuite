@@ -265,7 +265,15 @@ function user_prompts {
                         build=true
                         echo "Please specify a build directory (can be relative or absolute)."
                         echo -n "=> "
-                        read build_dir
+                        read user_build_dir
+                        case $user_build_dir in
+                            [\\/$]* | ?:[\\/]* | NONE | '' )
+                                build_dir=$user_build_dir
+                                ;;
+                            *)
+                                build_dir=$PWD/$user_build_dir
+                                ;;
+                        esac
                         ;;
                     3) 
                         install=true
@@ -445,7 +453,7 @@ function user_prompts {
                if [ $VCS = "svn" ]; then
                    echo 'trunk', 'releases/x.y.z', or 'stable/x.y'
                else
-                   echo 'trunk', 'releases/x.y.z', or 'stable/x.y'
+                   echo 'master', 'releases/x.y.z', or 'stable/x.y'
                fi
                echo -n "=> "
                read choice
@@ -589,13 +597,13 @@ function fetch_proj {
             cd $root_dir
         fi
     else
+        if [ $version = "trunk" ] ; then
+            version=master
+        fi
         if [ -d $dir ]; then
             cd $dir
             current_version=`git branch | grep \* | cut -d ' ' -f 2`
             current_rev=`git rev-parse HEAD`
-            if [ $version = "trunk" ] ; then
-                version=master
-            fi
             if [ $current_version != $version ]; then
                 print_action "Switching $dir to $version"
                 git checkout $version
@@ -763,7 +771,7 @@ verbosity=4
 main_proj=
 main_proj_version=
 MAKE=make
-VCS=svn
+VCS=git
 no_prompts=false
 
 echo "Welcome to the COIN-OR fetch and build utility"
@@ -832,6 +840,7 @@ if [ x$main_proj != x ]; then
     fi
 fi
 
+# Go through each project in order and fetch, build, install (as instructed
 for entry in $deps
 do
     dir=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 1`
@@ -870,8 +879,8 @@ do
             fi
         fi
         
-        if [ $VCS = "git" ] && [ $proj != "Data" ]; then
-            if [ $proj = "BuildTools" ]; then
+        if [ $VCS = "git" ]; then
+            if [ $proj = "BuildTools" ] || [ $proj = "Data" ]; then
                 url="https://github.com/coin-or-tools/"
             else
                 url="https://github.com/coin-or/"
@@ -879,6 +888,8 @@ do
             # Convert SVN URL to a Github one and check out with git
             svn_repo=`echo $url | cut -d '/' -f 5`
             if [ `echo $dir | cut -d "/" -f 1` = "ThirdParty" ]; then
+                url+=`echo $dir | sed s"|/|-|"`
+            elif [ $proj = "Data" ]; then
                 url+=`echo $dir | sed s"|/|-|"`
             elif [ $proj = "CHiPPS" ]; then
                 url+="CHiPPS-"$dir
@@ -891,12 +902,7 @@ do
     # Get the source (if requested)
     if [ $dir != $main_proj_dir ] &&
            [ $fetch = "true" ] && get_project $dir; then
-        if [ `echo $proj | cut -d '/' -f 1` = "Data" ]; then
-            #Force svn for now
-            fetch_proj svn 
-        else
-            fetch_proj $VCS 
-        fi
+        fetch_proj $VCS 
     elif [ $dir != $main_proj_dir ] && [ $fetch = "true" ]; then
         echo "Skipping $proj..."
     fi
