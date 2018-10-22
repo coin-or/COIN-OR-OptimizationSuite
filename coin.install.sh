@@ -40,6 +40,7 @@ function help {
     echo
     echo "General options:"
     echo "  --debug: Turn on debugging output"
+    echo "  --no-prompt: Turn on non-interactive mode"
     echo 
 }
 
@@ -213,6 +214,9 @@ function parse_args {
             --no-third-party)
                 get_third_party=false
                 ;;
+            --no-prompts)
+                no_prompts=true
+                ;;
             --*)
                 configure_options["$arg"]=""
                 ;;
@@ -296,17 +300,22 @@ function fetch_proj {
             cd $dir
             current_version=`git branch | grep \* | cut -d ' ' -f 2`
             current_rev=`git rev-parse HEAD`
+            if [ $version = "trunk" ] ; then
+                version=master
+            fi
             if [ $current_version != $version ]; then
                 print_action "Switching $dir to $version"
-                git checkout $proj
-                git pull
+                git checkout $version
+                if [ `echo $current_version | cut -d " " -f 1` != "(HEAD" ]; then
+                    git pull
+                fi
                 new_rev=`git rev-parse HEAD`
             else
                 print_action "Updating $dir"
                 git pull
                 new_rev=`git rev-parse HEAD`
             fi
-            cd root_dir
+            cd $root_dir
         else
             print_action "Fetching $dir $version"
             if [ $sparse = "true" ]; then
@@ -462,6 +471,7 @@ main_proj=
 main_proj_version=
 MAKE=make
 VCS=svn
+no_prompts=false
 
 echo "Welcome to the COIN-OR fetch and build utility"
 echo 
@@ -478,7 +488,7 @@ if [ x"$prefix" = x ]; then
     prefix=$build_dir
 fi
 
-if [ x$main_proj = x ]; then
+if [ x$main_proj = x ] && [ $no_prompts = false ]; then
     echo
     echo "Please choose a main project to fetch/build by typing 1-18"
     echo "or simply type the repository name of another project not" 
@@ -532,7 +542,75 @@ if [ x$main_proj = x ]; then
     esac
 fi
 
-if [ x$main_proj_version = x ]; then
+if [ $fetch = "false" ] && [ ! -d $main_proj ]; then
+    echo "It appears that project has not been fetched yet."
+    if [ $no_prompts = "false" ]; then
+        echo "Fetch now? y/n"
+        got_choice=false
+        while [ $got_choice = "false" ]; do
+            read choice
+            case $choice in
+                y|n) got_choice=true;;
+                *) ;;
+            esac
+        done
+        case $choice in
+            y)
+                fetch="true"
+                ;;
+            n)
+                ;;
+        esac
+    fi
+    if [ $fetch = "false" ]; then
+        echo "Exiting..."
+        exit 10
+    fi
+fi
+
+if [ $fetch = "false" ]; then
+    cd $main_proj
+    if [ $VCS = "git" ]; then
+        current_version=`git branch | grep \* | cut -d ' ' -f 2`
+        if [ $current_version = "(HEAD" ]; then
+            current_version=`git branch | grep \* | cut -d ' ' -f 5`
+        fi
+    else
+        if [ `svn info | fgrep "URL" | cut -d '/' -f 6` = trunk ]; then
+            current_version=trunk
+        else
+            current_version=`echo $url | cut -d '/' -f 6-7`
+        fi
+    fi
+    cd $root_dir
+    echo "#######################################"
+    echo "### Building version $current_version"
+    echo "### with existing versions of dependnecies."
+    echo "### Run 'fetch' first to switch versions" 
+    echo "### or to ensure correct dependencies"
+    echo "#######################################"
+    echo 
+    if [ $no_prompts = false ]; then
+        echo "Fetch now? y/n"
+        got_choice=false
+        while [ $got_choice = "false" ]; do
+            read choice
+            case $choice in
+                y|n) got_choice=true;;
+                *) ;;
+            esac
+        done
+        case $choice in
+            y)
+                fetch="true"
+                ;;
+            n)
+                ;;
+        esac
+    fi
+fi
+   
+if [ x$main_proj_version = x ] && [ $fetch = true ] && [ $no_prompts = false ]; then
     echo
     echo "It appears that the last 10 releases of $main_proj are"
     git ls-remote --tags https://github.com/coin-or/$main_proj | fgrep releases | cut -d '/' -f 4 | sort -nr -t. -k1,1 -k2,2 -k3,3 | head -10
@@ -549,7 +627,11 @@ if [ x$main_proj_version = x ]; then
         y) main_proj_version=releases/`git ls-remote --tags https://github.com/coin-or/$main_proj | fgrep releases | cut -d '/' -f 4 | sort -nr -t. -k1,1 -k2,2 -k3,3 | head -1`
            ;;
         n) echo "Please enter another version name in the form of"
-           echo 'trunk', 'releases/x.y.z', or 'stable/x.y'
+           if [ $VCS = "svn" ]; then
+               echo 'trunk', 'releases/x.y.z', or 'stable/x.y'
+           else
+               echo 'trunk', 'releases/x.y.z', or 'stable/x.y'
+           fi
            read choice
            main_proj_version=$choice
            ;;
@@ -557,60 +639,65 @@ if [ x$main_proj_version = x ]; then
     echo
 fi
 
-if [ -e $build_dir/.config ] && [ $build = "true" ] && \
+if [ -e $build_dir/.config ] && [ $build = "true" ] && 
        [ $reconfigure = false ]; then
-    echo "Previous configuration options found."
-    if [ x"${#configure_options[*]}" != x0 ]; then
+    if [ $no_prompts = false ]; then
+        echo "Previous configuration options found."
         echo
         echo "You are trying to run the build again and have specified"
         echo "configuration options on the command line."
         echo
-        echo "Please choose one of the following options."
-        echo " The indicated action will be performed for you AUTOMATICALLY"
-        echo "1. Run the build again with the previously specified options."
-        echo "   This can also be accomplished invoking the build"
-        echo "   command without any arguments."
-        echo "2. Configure in a new build directory (whose name you will be"
-        echo "   prmpted to specify) with new options."
-        echo "3. Re-configure in the same build directory with the new"
-        echo "   options. This option is not recommended unless you know"
-        echo "   what you're doing!."
-        echo "4. Quit"
-        echo
-        got_choice=false
-        while [ $got_choice = "false" ]; do
-            echo "Please type 1, 2, 3, or 4"
-            read choice
+        if [ x"${#configure_options[*]}" != x0 ]; then
+            echo "Please choose one of the following options."
+            echo " The indicated action will be performed for you AUTOMATICALLY"
+            echo "1. Run the build again with the previously specified options."
+            echo "   This can also be accomplished invoking the build"
+            echo "   command without any arguments."
+            echo "2. Configure in a new build directory (whose name you will be"
+            echo "   prmpted to specify) with new options."
+            echo "3. Re-configure in the same build directory with the new"
+            echo "   options. This option is not recommended unless you know"
+            echo "   what you're doing!."
+            echo "4. Quit"
+            echo
+            got_choice=false
+            while [ $got_choice = "false" ]; do
+                echo "Please type 1, 2, 3, or 4"
+                read choice
+                case $choice in
+                    1|2|3|4) got_choice=true;;
+                    *) ;;
+                esac
+            done
             case $choice in
-                1|2|3|4) got_choice=true;;
-                *) ;;
+                1)  ;;
+                2)
+                    echo "Please enter a new build directory:"
+                    read dir
+                    if [ x"$dir" != x ]; then
+                        case $dir in
+                            [\\/$]* | ?:[\\/]* | NONE | '' )
+                                build_dir=$dir
+                                ;;
+                            *)
+                                build_dir=$PWD/$dir
+                                ;;
+                        esac
+                    fi
+                    ;;
+                3)
+                    rm $build_dir/.config
+                    reconfigure=true
+                    ;;
+                4)
+                    exit 0
             esac
-        done
-        case $choice in
-            1)  ;;
-            2)
-                echo "Please enter a new build directory:"
-                read dir
-                if [ x"$dir" != x ]; then
-                    case $dir in
-                        [\\/$]* | ?:[\\/]* | NONE | '' )
-                            build_dir=$dir
-                            ;;
-                        *)
-                            build_dir=$PWD/$dir
-                            ;;
-                    esac
-                fi
-                ;;
-            3)
-                rm $build_dir/.config
-                reconfigure=true
-                ;;
-            4)
-                exit 0
-        esac
+        fi
+    else
+        echo "Please re-run the build and force reconfiguration with --reconfigure."
+        echo "Exiting..."
+        exit 10
     fi
-
 fi
 
 if [ x"${#configure_options[*]}" != x0 ] && [ $build = "false" ]; then
@@ -643,7 +730,7 @@ if [ x$main_proj != x ]; then
             main_proj_dir=$main_proj
         fi
         if [ x$main_proj_version = x ]; then
-            main_project_version = master
+            main_proj_version=master
         fi
         main_proj_url="https://github.com/coin-or/$main_proj"
     else
@@ -659,7 +746,9 @@ if [ x$main_proj != x ]; then
         proj=$main_proj
         version=$main_proj_version
         fetch_proj $VCS
-        svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > $dir/Dependencies
+        if [ $VCS = "svn" ]; then
+            svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > $dir/Dependencies
+        fi
     fi
 fi
 
@@ -727,12 +816,16 @@ do
             fi
         fi
         
-        if [ $VCS = "git" ]; then
-            url="https://github.com/coin-or/"
+        if [ $VCS = "git" ] && [ $proj != "Data" ]; then
+            if [ $proj = "BuildTools" ]; then
+                url="https://github.com/coin-or-tools/"
+            else
+                url="https://github.com/coin-or/"
+            fi
             # Convert SVN URL to a Github one and check out with git
             svn_repo=`echo $url | cut -d '/' -f 5`
-            if [ `echo $dir | cut -d "/" -f 1` = ThirdParty ]; then
-                url+=`echo $dir | sed s|/|-|`
+            if [ `echo $dir | cut -d "/" -f 1` = "ThirdParty" ]; then
+                url+=`echo $dir | sed s"|/|-|"`
             elif [ $proj = "CHiPPS" ]; then
                 url+="CHiPPS-"$dir
             else
@@ -756,7 +849,7 @@ do
     
     # Build the project (if requested)
     if [ $build = "true" ] && [ $dir != "BuildTools" ] && [ $proj != "Data" ] &&
-       [ -d $dir ]; then
+           [ -d $dir ]; then
         build_proj $build_dir
     fi
     
