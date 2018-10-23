@@ -190,6 +190,10 @@ function parse_args {
                         ;;            
                 esac
                 ;;
+            --help)
+                help
+                exit 0
+                ;;
             --sparse)
                 sparse=true
                 ;;
@@ -214,8 +218,8 @@ function parse_args {
             --no-third-party)
                 get_third_party=false
                 ;;
-            --no-prompts)
-                no_prompts=true
+            --no-prompt)
+                no_prompt=true
                 ;;
             --*)
                 configure_options["$arg"]=""
@@ -242,17 +246,19 @@ function parse_args {
                 ;;
         esac
     done
+    echo
 }
 
 function user_prompts {
 
     # Help
-    if [ $num_actions == 0 ]; then
-        if [ $no_prompts = "false" ]; then
+    if [ $num_actions = 0 ]; then
+        if [ $no_prompt = "false" ]; then
             echo "Please choose an action by typing 1-3."
             echo " 1. Fetch source code of a project and its dependencies."
             echo " 2. Build a project and its dependencies."
             echo " 3. Install a project and its dependencies."
+            echo " 4. Help"
             continue=false
             while [ $continue = "false" ]; do
                 echo -n "=> "
@@ -281,12 +287,17 @@ function user_prompts {
                         echo -n "=> "
                         read prefix
                         ;;
+                    4)
+                        help
+                        exit 0
+                        ;;
                     done) continue=true;;
                 esac
                 echo "Choose another action or type 'done'"
             done
         else
             help
+            exit 0
         fi
     fi
 
@@ -298,7 +309,7 @@ function user_prompts {
         prefix=$build_dir
     fi
     
-    if [ x$main_proj = x ] && [ $no_prompts = false ]; then
+    if [ x$main_proj = x ] && [ $no_prompt = false ]; then
         echo
         echo "Please choose a main project to fetch/build by typing 1-18"
         echo "or simply type the repository name of another project not" 
@@ -354,85 +365,85 @@ function user_prompts {
         esac
     fi
 
-    if [ -d $main_proj ]; then
-        if [ -d $main_proj/.git ]; then
-            VCS=git
-        else
-            VCS=svn
-        fi
-    else
-        if [ $fetch = "false" ]; then
-           echo "It appears that project has not been fetched yet."
-           if [ $no_prompts = "false" ]; then
-               echo "Fetch now? y/n"
-               got_choice=false
-               while [ $got_choice = "false" ]; do
-                   echo -n "=> "
-                   read choice
-                   case $choice in
-                       y|n) got_choice=true;;
-                       *) ;;
-                   esac
-               done
-               case $choice in
-                   y)
-                       fetch="true"
-                       ;;
-                   n)
-                       ;;
-               esac
-           fi
-           if [ $fetch = "false" ]; then
-               echo "Exiting..."
-               exit 10
-           fi
-        fi
-    fi
-           
-    if [ $fetch = "false" ]; then
-        cd $main_proj
-        if [ $VCS = "git" ]; then
-            current_version=`git branch | grep \* | cut -d ' ' -f 2`
-            if [ $current_version = "(HEAD" ]; then
-                current_version=`git branch | grep \* | cut -d ' ' -f 5`
-            fi
-        else
-            if [ `svn info | fgrep "URL" | cut -d '/' -f 6` = trunk ]; then
-                current_version=trunk
+    if [ x$main_proj != x ]; then
+        if [ -d $main_proj ]; then
+            if [ -d $main_proj/.git ]; then
+                VCS=git
             else
-                current_version=`echo $url | cut -d '/' -f 6-7`
+                VCS=svn
             fi
-        fi
-        cd $root_dir
-        echo "#######################################"
-        echo "### Building version $current_version"
-        echo "### with existing versions of dependnecies."
-        echo "### Run 'fetch' first to switch versions" 
-        echo "### or to ensure correct dependencies"
-        echo "#######################################"
-        echo 
-        if [ $no_prompts = false ]; then
-            echo "Fetch now? y/n"
-            got_choice=false
-            while [ $got_choice = "false" ]; do
-                echo -n "=> "
-                read choice
+            if [ $fetch = "false" ]; then
+                cd $main_proj
+                if [ $VCS = "git" ]; then
+                    current_version=`git branch | grep \* | cut -d ' ' -f 2`
+                    if [ $current_version = "(HEAD" ]; then
+                        current_version=`git branch | grep \* | cut -d ' ' -f 5`
+                    fi
+                else
+                    if [ `svn info | fgrep "URL" | cut -d '/' -f 6` = trunk ]; then
+                        current_version=trunk
+                    else
+                        current_version=`echo $url | cut -d '/' -f 6-7`
+                    fi
+                fi
+                cd $root_dir
+                echo "################################################"
+                echo "### Building/installing version $current_version"
+                echo "### with existing versions of dependnecies."
+                echo "### Run 'fetch' first to switch versions" 
+                echo "### or to ensure correct dependencies"
+                echo "################################################"
+                echo 
+                if [ $no_prompt = false ]; then
+                    echo "Fetch now? y/n"
+                    got_choice=false
+                    while [ $got_choice = "false" ]; do
+                        echo -n "=> "
+                        read choice
+                        case $choice in
+                            y|n) got_choice=true;;
+                            *) ;;
+                        esac
+                    done
+                    case $choice in
+                        y)
+                            fetch="true"
+                            ;;
+                        n)
+                            ;;
+                    esac
+                fi
+            fi
+        elif [ $fetch = "false" ]; then
+            echo "It appears that project has not been fetched yet."
+            if [ $no_prompt = "false" ]; then
+                echo "Fetch now? y/n"
+                got_choice=false
+                while [ $got_choice = "false" ]; do
+                    echo -n "=> "
+                    read choice
+                    case $choice in
+                        y|n) got_choice=true;;
+                        *) ;;
+                    esac
+                done
                 case $choice in
-                    y|n) got_choice=true;;
-                    *) ;;
+                    y)
+                        fetch="true"
+                        ;;
+                    n)
+                        ;;
                 esac
-            done
-            case $choice in
-                y)
-                    fetch="true"
-                    ;;
-                n)
-                    ;;
-            esac
+            fi
+            if [ $fetch = "false" ]; then
+                echo "Exiting..."
+                exit 10
+            fi
         fi
     fi
     
-    if [ x$main_proj_version = x ] && [ $fetch = true ] && [ $no_prompts = false ]; then
+    if [ x$main_proj != x ] && [ x$main_proj_version = x ] && [ $fetch = true ] &&
+           [ $no_prompt = false ]; then
         echo
         echo "It appears that the last 10 releases of $main_proj are"
         git ls-remote --tags https://github.com/coin-or/$main_proj | fgrep releases | cut -d '/' -f 4 | sort -nr -t. -k1,1 -k2,2 -k3,3 | head -10
@@ -465,13 +476,15 @@ function user_prompts {
     
     if [ -e $build_dir/.config ] && [ $build = "true" ] && 
            [ $reconfigure = false ]; then
-        if [ $no_prompts = false ]; then
-            echo "Previous configuration options found."
+        echo "###"
+        echo "### Cached configuration options from previous build found."
+        echo "###"
+        if [ x"${#configure_options[*]}" != x0 ]; then
             echo
             echo "You are trying to run the build again and have specified"
             echo "configuration options on the command line."
             echo
-            if [ x"${#configure_options[*]}" != x0 ]; then
+            if [ $no_prompt = false ]; then
                 echo "Please choose one of the following options."
                 echo " The indicated action will be performed for you AUTOMATICALLY"
                 echo "1. Run the build again with the previously specified options."
@@ -518,11 +531,11 @@ function user_prompts {
                     4)
                         exit 0
                 esac
+            else
+                echo "Please re-run the build and force reconfiguration with --reconfigure."
+                echo "Exiting..."
+                exit 10
             fi
-        else
-            echo "Please re-run the build and force reconfiguration with --reconfigure."
-            echo "Exiting..."
-            exit 10
         fi
     fi
     
@@ -541,7 +554,7 @@ function user_prompts {
         fi
         echo "Options to be passed to configure: ${!configure_options[@]}"
     fi
-    
+    echo
 }
 
 
@@ -772,11 +785,11 @@ main_proj=
 main_proj_version=
 MAKE=make
 VCS=git
-no_prompts=false
+no_prompt=false
 
 echo "Welcome to the COIN-OR fetch and build utility"
 echo 
-echo "For help, run script without arguments."
+echo "For help, run script with --help."
 echo 
 
 parse_args "$@"
@@ -827,6 +840,7 @@ elif [ x$main_proj != x ] && [ -e $main_proj/$main_proj/Dependencies ]; then
     deps=`cat $main_proj/$main_proj/Dependencies | tr '\t' ' ' | tr -s ' '`
 else
     echo "Can't find dependencies file...exiting"
+    echo
     exit 3
 fi
 
@@ -921,5 +935,4 @@ do
     
 done
 unset IFS
-
 
