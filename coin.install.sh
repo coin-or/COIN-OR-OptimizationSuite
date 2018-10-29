@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Author: Ted Ralphs (ted@lehigh.edu)
-# Copyright 2016, Ted Ralphs
+# Copyright 2016-2018, Ted Ralphs
 # Released Under the Eclipse Public License 
 #
 # TODO
@@ -545,7 +545,7 @@ function user_prompts {
     fi
     
     if [ $build = "true" ]; then
-        if [ ! -e $build_dir/.config ]; then
+        if [ ! -e $build_dir/.config ] || [ $reconfigure = "true" ]; then
             echo "Caching configuration options..."
             mkdir -p $build_dir
             printf "%s\n" "${!configure_options[@]}" > $build_dir/.config
@@ -661,6 +661,7 @@ function fetch_proj {
         if [ -e $dir/get.$tp_proj ]; then
             cd $dir
             ./get.$tp_proj
+            touch .build
             cd -
         else
             echo "Not downloading source for $tp_proj..."
@@ -669,44 +670,49 @@ function fetch_proj {
 }
         
 function build_proj {
-    mkdir -p $build_dir
-    rm -f $build_dir/coin_subdirs.txt
-    mkdir -p $build_dir/$dir
-    echo -n $dir" " >> $build_dir/coin_subdirs.txt
-    cd $build_dir/$dir
-    if [ ! -e config.status ] || [ $reconfigure = "true" ]; then
-        if [ $reconfigure = "true" ]; then
-            print_action "Reconfiguring $dir"
+    if [ `echo $dir | cut -d '/' -f 1` = ThirdParty ] &&
+           [ ! -e $dir/.build ]; then
+        echo
+        echo "Skipping build of $dir"
+        echo
+    else
+        mkdir -p $build_dir/$dir
+        echo -n $dir" " >> $build_dir/coin_subdirs.txt
+        cd $build_dir/$dir
+        if [ ! -e config.status ] || [ $reconfigure = "true" ]; then
+            if [ $reconfigure = "true" ]; then
+                print_action "Reconfiguring $dir"
+            else
+                print_action "Configuring $dir"
+            fi
+            if [ $verbosity -ge 3 ]; then
+                "$root_dir/$dir/configure" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}"
+            else
+                "$root_dir/$dir/configure" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}" > /dev/null
+            fi
+        fi
+        print_action "Building $dir"
+        if [ $verbosity -ge 3 ]; then
+            invoke_make $(($verbosity-1)) ""
         else
-            print_action "Configuring $dir"
+            invoke_make 1 ""
+        fi
+        if [ $run_all_tests = "true" ]; then
+            print_action "Running $proj unit test"
+            invoke_make "false" test
+        fi
+        if [ $1 = $build_dir ]; then
+            print_action "Pre-installing $dir"
+        else
+            print_action "Installing $dir"
         fi
         if [ $verbosity -ge 3 ]; then
-            "$root_dir/$dir/configure" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}"
+            invoke_make $(($verbosity-1)) install
         else
-            "$root_dir/$dir/configure" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}" > /dev/null
+            invoke_make 1 install
         fi
+        cd $root_dir
     fi
-    print_action "Building $dir"
-    if [ $verbosity -ge 3 ]; then
-        invoke_make $(($verbosity-1)) ""
-    else
-        invoke_make 1 ""
-    fi
-    if [ $run_all_tests = "true" ]; then
-        print_action "Running $proj unit test"
-        invoke_make "false" test
-    fi
-    if [ $1 = $build_dir ]; then
-        print_action "Pre-installing $dir"
-    else
-        print_action "Installing $dir"
-    fi
-    if [ $verbosity -ge 3 ]; then
-        invoke_make $(($verbosity-1)) install
-    else
-        invoke_make 1 install
-    fi
-    cd $root_dir
 }
 
 function install_proj {
@@ -783,6 +789,7 @@ get_third_party=true
 verbosity=4
 main_proj=
 main_proj_version=
+main_proj_dir=
 MAKE=make
 VCS=git
 no_prompt=false
@@ -854,17 +861,23 @@ if [ x$main_proj != x ]; then
     fi
 fi
 
+if [ build = "true" ]; then
+    rm -f $build_dir/coin_subdirs.txt
+fi
+
 # Go through each project in order and fetch, build, install (as instructed
 for entry in $deps
 do
     dir=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 1`
     url=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 2`
     proj=`echo $url | cut -d '/' -f 5`
+    git_project=false
     # Set the URL of the project, the version, and the build dir
     if [ `echo $url | cut -d '/' -f 3` != "projects.coin-or.org" ]; then
         # If this is a URL of something other than a COIN-OR project on
         # SVN, then we assume it's a git project
         version=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 3`
+        git_project=true
     else
         if [ $proj = "BuildTools" ] &&
                [ `echo $url | cut -d '/' -f 6` = 'ThirdParty' ]; then
@@ -914,14 +927,24 @@ do
     fi
 
     # Get the source (if requested)
-    if [ $dir != $main_proj_dir ] &&
-           [ $fetch = "true" ] && get_project $dir; then
-        fetch_proj $VCS 
-    elif [ $dir != $main_proj_dir ] && [ $fetch = "true" ]; then
+    if [ $fetch = "true" ] && get_project $dir; then
+        if [ x$main_proj_dir = x ]; then
+            if [ $git_project = "true" ]; then
+                fetch_proj git
+            else
+                fetch_proj $VCS
+            fi
+        elif [ $dir != $main_proj_dir ]; then
+            if [ $git_project = "true" ]; then
+                fetch_proj git
+            else
+                fetch_proj $VCS
+            fi
+        fi
+    else
         echo "Skipping $proj..."
     fi
-    
-    # Build the project (if requested)
+            # Build the project (if requested)
     if [ $build = "true" ] && [ $dir != "BuildTools" ] && [ $proj != "Data" ] &&
            [ -d $dir ]; then
         build_proj $build_dir
