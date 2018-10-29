@@ -30,7 +30,7 @@ Alps              https://projects.coin-or.org/svn/CHiPPS/Alps/trunk/Alps
 Bcps              https://projects.coin-or.org/svn/CHiPPS/Bcps/trunk/Bcps
 Blis              https://projects.coin-or.org/svn/CHiPPS/Blis/trunk/Blis
 Dip               https://projects.coin-or.org/svn/Dip/trunk/Dip
-cppad             https://projects.coin-or.org/svn/CppAD/stable/20130000
+cppad             https://github.com/coin-or/CppAD/ stable/20180000
 Bonmin            https://projects.coin-or.org/svn/Bonmin/trunk/Bonmin
 Couenne           https://projects.coin-or.org/svn/Couenne/trunk/Couenne
 OS                https://projects.coin-or.org/svn/OS/trunk/OS
