@@ -705,6 +705,11 @@ function build_proj {
         if [ $run_all_tests = "true" ]; then
             print_action "Running $proj unit test"
             invoke_make "false" test
+        elif [ $run_test = "true" ] && [ x$main_proj != x ]; then
+            if [ $main_proj = $dir ]; then
+                print_action "Running $proj unit test"
+                invoke_make "false" test
+            fi
         fi
         if [ $1 = $build_dir ]; then
             print_action "Pre-installing $dir"
@@ -953,8 +958,7 @@ do
     fi
     
     # Build the project (if requested)
-    if [ $build = "true" ] && [ $dir != "BuildTools" ] && [ $proj != "Data" ] &&
-           [ -d $dir ]; then
+    if [ $build = "true" ] && [ $dir != "BuildTools" ] && [ -d $dir ]; then
         build_proj $build_dir
     fi
     
