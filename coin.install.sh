@@ -815,18 +815,13 @@ user_prompts
 
 # Fetch main project first
 if [ x$main_proj != x ]; then
+    main_proj_dir=$main_proj
     if [ $VCS = "git" ]; then
-        if [ x`echo $main_proj | cut -d '-' -f 1` = x"CHiPPS" ]; then
-            main_proj_dir=`echo $main_proj | cut -d '-' -f 2`
-        else
-            main_proj_dir=$main_proj
-        fi
         if [ x$main_proj_version = x ]; then
             main_proj_version=master
         fi
         main_proj_url="https://github.com/coin-or/$main_proj"
     else
-        main_proj_dir=$main_proj
         if [ x$main_proj_version = x ]; then
             main_proj_version=trunk
         fi
