@@ -685,10 +685,15 @@ function build_proj {
             else
                 print_action "Configuring $dir"
             fi
-            if [ $verbosity -ge 3 ]; then
-                "$root_dir/$dir/configure" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}"
+            if [ -e $root_dir/$dir/$dir/configure ]; then
+                config_script="$root_dir/$dir/$dir/configure"
             else
-                "$root_dir/$dir/configure" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}" > /dev/null
+                config_script="$root_dir/$dir/configure"
+            fi
+            if [ $verbosity -ge 3 ]; then
+                "$config_script" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}"
+            else
+                "$config_script" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}" > /dev/null
             fi
         fi
         print_action "Building $dir"
@@ -927,24 +932,27 @@ do
     fi
 
     # Get the source (if requested)
-    if [ $fetch = "true" ] && get_project $dir; then
-        if [ x$main_proj_dir = x ]; then
-            if [ $git_project = "true" ]; then
-                fetch_proj git
-            else
-                fetch_proj $VCS
+    if [ $fetch = "true" ]; then
+        if get_project $dir; then
+            if [ x$main_proj_dir = x ]; then
+                if [ $git_project = "true" ]; then
+                    fetch_proj git
+                else
+                    fetch_proj $VCS
+                fi
+            elif [ $dir != $main_proj_dir ]; then
+                if [ $git_project = "true" ]; then
+                    fetch_proj git
+                else
+                    fetch_proj $VCS
+                fi
             fi
-        elif [ $dir != $main_proj_dir ]; then
-            if [ $git_project = "true" ]; then
-                fetch_proj git
-            else
-                fetch_proj $VCS
-            fi
+        else
+            echo "Skipping $proj..."
         fi
-    else
-        echo "Skipping $proj..."
     fi
-            # Build the project (if requested)
+    
+    # Build the project (if requested)
     if [ $build = "true" ] && [ $dir != "BuildTools" ] && [ $proj != "Data" ] &&
            [ -d $dir ]; then
         build_proj $build_dir
