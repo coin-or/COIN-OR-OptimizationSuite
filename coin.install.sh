@@ -690,15 +690,21 @@ function build_proj {
             else
                 config_script="$root_dir/$dir/configure"
             fi
-            if [ $verbosity -ge 3 ]; then
+            if [ $verbosity -ge 3 ] || ( [ $verbosity -ge 2 ] &&
+                                             [ x$main_proj != x ] &&
+                                             [ $main_proj = $dir ]); then
                 "$config_script" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}"
             else
                 "$config_script" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}" > /dev/null
             fi
         fi
         print_action "Building $dir"
-        if [ $verbosity -ge 3 ]; then
-            invoke_make $(($verbosity-1)) ""
+        if [ $verbosity -ge 2 ]; then
+            if [ x$main_proj != x ] && [ $main_proj = $dir ]; then
+                invoke_make $verbosity ""
+            else
+                invoke_make $(($verbosity-1)) ""
+            fi
         else
             invoke_make 1 ""
         fi
