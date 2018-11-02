@@ -23,6 +23,7 @@ function help {
     echo "             --git (checkout from git)"
     echo "             --skip='proj1 proj2' skip listed projects"
     echo "             --no-third-party don't download third party source (getter-scripts)"
+    echo "             --skip-update Skip updating projects that are already checked out (useful if you have local changes)"
     echo
     echo "  build: Configure, build, test (optional), and pre-install all projects"
     echo "    options: --xxx=yyy (will be passed through to configure)"
@@ -221,6 +222,9 @@ function parse_args {
             --no-prompt)
                 no_prompt=true
                 ;;
+            --skip-update)
+                skip_update=true
+                ;;
             --*)
                 configure_options["$arg"]=""
                 ;;
@@ -366,14 +370,41 @@ function user_prompts {
     fi
 
     if [ x$main_proj != x ]; then
-        if [ -d $main_proj ]; then
-            if [ -d $main_proj/.git ]; then
+        if [ `echo $main_proj | cut -d '-' -f 1` = "CHiPPS" ]; then
+            case `echo $main_proj | cut -d '-' -f 2` in
+                ALPS)
+                    main_proj_dir=Alps
+                    ;;
+                BiCePS)
+                    main_proj_dir=Bcps
+                    ;;
+                BLIS)
+                    main_proj_dir=Blis
+                    ;;
+            esac
+        else
+            main_proj_dir=$main_proj
+        fi
+        if [ $VCS = "git" ]; then
+            if [ x$main_proj_version = x ]; then
+                main_proj_version=master
+            fi
+            main_proj_url="https://github.com/coin-or/$main_proj"
+        else
+            if [ x$main_proj_version = x ]; then
+                main_proj_version=trunk
+            fi
+            main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
+        fi
+
+        if [ -d $main_proj_dir ]; then
+            if [ -d $main_proj_dir/.git ]; then
                 VCS=git
             else
                 VCS=svn
             fi
             if [ $fetch = "false" ]; then
-                cd $main_proj
+                cd $main_proj_dir
                 if [ $VCS = "git" ]; then
                     current_version=`git branch | grep \* | cut -d ' ' -f 2`
                     if [ $current_version = "(HEAD" ]; then
@@ -596,9 +627,15 @@ function fetch_proj {
                 print_action "Switching $dir to $version"
                 svn --non-interactive --trust-server-cert switch $url
                 new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
+                if [ -e $build_dir/$dir ]; then
+                    cd $build_dir/$dir
+                    make clean
+                fi
             else
-                print_action "Updating $dir"
-                svn --non-interactive --trust-server-cert update
+                if [ $skip_update = "false" ]; then
+                    print_action "Updating $dir"
+                    svn --non-interactive --trust-server-cert update
+                fi
                 new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
             fi
             cd $root_dir
@@ -624,9 +661,15 @@ function fetch_proj {
                     git pull
                 fi
                 new_rev=`git rev-parse HEAD`
+                if [ -e $build_dir/$dir ]; then
+                    cd $build_dir/$dir
+                    make clean
+                fi
             else
-                print_action "Updating $dir"
-                git pull
+                if [ $skip_update = "false" ]; then
+                    print_action "Updating $dir"
+                    git pull
+                fi
                 new_rev=`git rev-parse HEAD`
             fi
             cd $root_dir
@@ -692,15 +735,15 @@ function build_proj {
             fi
             if [ $verbosity -ge 3 ] || ( [ $verbosity -ge 2 ] &&
                                              [ x$main_proj != x ] &&
-                                             [ $main_proj = $dir ]); then
-                "$config_script" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}"
+                                             [ $main_proj_dir = $dir ]); then
+                "$config_script" --disable-dependency-tracking --with-coin-instdir=$1 --prefix=$1 "${!configure_options[@]}"
             else
-                "$config_script" --disable-dependency-tracking --prefix=$1 "${!configure_options[@]}" > /dev/null
+                "$config_script" --disable-dependency-tracking --with-coin-instdir=$1 --prefix=$1 "${!configure_options[@]}" > /dev/null
             fi
         fi
         print_action "Building $dir"
         if [ $verbosity -ge 2 ]; then
-            if [ x$main_proj != x ] && [ $main_proj = $dir ]; then
+            if [ x$main_proj != x ] && [ $main_proj_dir = $dir ]; then
                 invoke_make $verbosity ""
             else
                 invoke_make $(($verbosity-1)) ""
@@ -712,7 +755,7 @@ function build_proj {
             print_action "Running $proj unit test"
             invoke_make "false" test
         elif [ $run_test = "true" ] && [ x$main_proj != x ]; then
-            if [ $main_proj = $dir ]; then
+            if [ $main_proj_dir = $dir ]; then
                 print_action "Running $proj unit test"
                 invoke_make "false" test
             fi
@@ -763,10 +806,10 @@ function uninstall {
     done
     if [ -e $main_proj ]; then
         if [ $build_dir != $PWD ]; then
-            mkdir -p $build_dir/$main_proj
-            cd $build_dir/$main_proj
+            mkdir -p $build_dir/$main_proj_dir
+            cd $build_dir/$main_proj_dir
         else
-            cd $main_proj
+            cd $main_proj_dir
         fi
     fi
     print_action "Uninstalling $main_proj"
@@ -809,6 +852,7 @@ main_proj_dir=
 MAKE=make
 VCS=git
 no_prompt=false
+skip_update=false
 
 echo "Welcome to the COIN-OR fetch and build utility"
 echo 
@@ -820,19 +864,8 @@ parse_args "$@"
 user_prompts
 
 # Fetch main project first
+
 if [ x$main_proj != x ]; then
-    main_proj_dir=$main_proj
-    if [ $VCS = "git" ]; then
-        if [ x$main_proj_version = x ]; then
-            main_proj_version=master
-        fi
-        main_proj_url="https://github.com/coin-or/$main_proj"
-    else
-        if [ x$main_proj_version = x ]; then
-            main_proj_version=trunk
-        fi
-        main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
-    fi
     if [ $fetch = true ]; then
         url=$main_proj_url
         dir=$main_proj_dir
@@ -852,10 +885,10 @@ IFS=$'\n'
 # Build list of dependencies
 if [ -e Dependencies ] && [ x$main_proj = x ]; then
     deps=`cat Dependencies | tr '\t' ' ' | tr -s ' '`
-elif [ x$main_proj != x ] && [ -e $main_proj/Dependencies ]; then
-    deps=`cat $main_proj/Dependencies | tr '\t' ' ' | tr -s ' '`
-elif [ x$main_proj != x ] && [ -e $main_proj/$main_proj/Dependencies ]; then
-    deps=`cat $main_proj/$main_proj/Dependencies | tr '\t' ' ' | tr -s ' '`
+elif [ x$main_proj != x ] && [ -e $main_proj_dir/Dependencies ]; then
+    deps=`cat $main_proj_dir/Dependencies | tr '\t' ' ' | tr -s ' '`
+elif [ x$main_proj != x ] && [ -e $main_proj_dir/$main_proj_dir/Dependencies ]; then
+    deps=`cat $main_proj_dir/$main_proj_dir/Dependencies | tr '\t' ' ' | tr -s ' '`
 else
     echo "Can't find dependencies file...exiting"
     echo
@@ -962,7 +995,7 @@ do
     if [ $build = "true" ] && [ $dir != "BuildTools" ] && [ -d $dir ]; then
         build_proj $build_dir
     fi
-    
+
     # Install the project (if requested)
     if [ $install = "true" ] &&
            [ $dir != "BuildTools" ] && get_project $dir; then
