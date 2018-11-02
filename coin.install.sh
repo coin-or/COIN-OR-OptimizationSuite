@@ -297,7 +297,7 @@ function user_prompts {
                         ;;
                     done) continue=true;;
                 esac
-                echo "Choose another action or type 'done'"
+                echo "You may choose another action to be performed or type 'done'"
             done
         else
             help
@@ -330,13 +330,16 @@ function user_prompts {
         echo " 10. Bcp"
         echo " 11. Ipopt"
         echo " 12. Alps"
-        echo " 13. Blis"
-        echo " 14. Dip"
-        echo " 15. Bonmin"
-        echo " 16. Couenne"
-        echo " 17. Optimization Services"
-        echo " 18. All"
-        echo " 19. Let me enter another project"
+        echo " 13. BiCePS"
+        echo " 14. Blis"
+        echo " 15. Dip"
+        echo " 16. Bonmin"
+        echo " 17. Couenne"
+        echo " 18. Optimization Services"
+        echo " 19. MibS"
+        echo " 20. DisCO"
+        echo " 21. All"
+        echo " 22. Let me enter another project"
         echo -n "=> "
         read choice
         echo
@@ -352,15 +355,36 @@ function user_prompts {
             9)  main_proj=CoinMP;;
             10)  main_proj=Bcp;;
             11)  main_proj=Ipopt;;
-            12)  main_proj=Alps;;
-            13)  main_proj=Blis;;
-            14)  main_proj=Dip;;
-            15)  main_proj=Bonmin;;
-            16)  main_proj=Couenne;;
-            17)  main_proj=OS;;
-            18)  ;;
-            19)
-                echo "Enter the name of the project"
+            12)
+                if [$VCS = git ]; then
+                    main_proj=CHiPPS-ALPS
+                else
+                    main_proj=CHiPPS/Alps
+                fi
+                ;;
+            13) 
+                if [$VCS = git ]; then
+                    main_proj=CHiPPS-BiCePS
+                else
+                    main_proj=CHiPPS/Bcps
+                fi
+                ;;
+            14) 
+                if [$VCS = git ]; then
+                    main_proj=CHiPPS-BLIS
+                else
+                    main_proj=CHiPPS/Blis
+                fi
+                ;;
+            15)  main_proj=Dip;;
+            16)  main_proj=Bonmin;;
+            17)  main_proj=Couenne;;
+            18)  main_proj=OS;;
+            19)  main_proj=DisCO;;
+            20)  main_proj=MibS;;
+            21)  ;;
+            22)
+                echo "Enter the name or URL of the project"
                 echo -n "=> "
                 read choice2
                 main_proj=$choice2
@@ -370,6 +394,22 @@ function user_prompts {
     fi
 
     if [ x$main_proj != x ]; then
+        if [ $VCS = "git" ]; then
+            if [ x$main_proj_version = x ]; then
+                main_proj_version=master
+            fi
+            if [ `echo $main_proj | cut -d ":" -f 1` = https ]; then
+                main_proj_url="$main_proj"
+                main_proj=`echo $main_proj_url | cut -d '/' -f 5 | cut -d '.' -f 1`
+            else
+                main_proj_url="https://github.com/coin-or/$main_proj"
+            fi
+        else
+            if [ x$main_proj_version = x ]; then
+                main_proj_version=trunk
+            fi
+            main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
+        fi
         if [ `echo $main_proj | cut -d '-' -f 1` = "CHiPPS" ]; then
             case `echo $main_proj | cut -d '-' -f 2` in
                 ALPS)
@@ -384,17 +424,6 @@ function user_prompts {
             esac
         else
             main_proj_dir=$main_proj
-        fi
-        if [ $VCS = "git" ]; then
-            if [ x$main_proj_version = x ]; then
-                main_proj_version=master
-            fi
-            main_proj_url="https://github.com/coin-or/$main_proj"
-        else
-            if [ x$main_proj_version = x ]; then
-                main_proj_version=trunk
-            fi
-            main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
         fi
 
         if [ -d $main_proj_dir ]; then
@@ -629,7 +658,9 @@ function fetch_proj {
                 new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
                 if [ -e $build_dir/$dir ]; then
                     cd $build_dir/$dir
-                    make clean
+                    if [ -e .config.status ]; then
+                        make clean
+                    fi
                 fi
             else
                 if [ $skip_update = "false" ]; then
@@ -663,7 +694,9 @@ function fetch_proj {
                 new_rev=`git rev-parse HEAD`
                 if [ -e $build_dir/$dir ]; then
                     cd $build_dir/$dir
-                    make clean
+                    if [ -e .config.status ]; then
+                        make clean
+                    fi
                 fi
             else
                 if [ $skip_update = "false" ]; then
@@ -915,7 +948,6 @@ do
     dir=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 1`
     url=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 2`
     proj=`echo $url | cut -d '/' -f 5`
-    git_project=false
     # Set the URL of the project, the version, and the build dir
     if [ `echo $url | cut -d '/' -f 3` != "projects.coin-or.org" ]; then
         # If this is a URL of something other than a COIN-OR project on
@@ -923,6 +955,7 @@ do
         version=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 3`
         git_project=true
     else
+        git_project=false
         if [ $proj = "BuildTools" ] &&
                [ `echo $url | cut -d '/' -f 6` = 'ThirdParty' ]; then
             if [ `echo $url | cut -d '/' -f 8` = trunk ]; then
