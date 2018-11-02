@@ -14,19 +14,24 @@
 #PS4='${LINENO}:${PWD}: '
 
 function help {
-    echo "Usage: get.dependencies.sh <command> --option1 --option2"
+    echo "Usage: coin.install.sh <command> --option1 --option2"
+    echo "       Run without arguments for interactive mode"
     echo
     echo "Commands:"
     echo
-    echo "  fetch: Checkout source code for all dependencies"
-    echo "    options: --svn (checkout from SVN)"
-    echo "             --git (checkout from git)"
+    echo "  fetch: Checkout source code for project and dependencies"
+    echo "    options: --main-proj=Xxx (check out project Xxx from COIN-OR)"
+    echo "             --main-proj=URL (check out git fork from URL)"
+    echo "             --main-proj-version=x.y.z (check out version x.y.z)"
+    echo "             --svn (check out SVN projects with SVN)"
+    echo "             --git (check out all projects from git)"
     echo "             --skip='proj1 proj2' skip listed projects"
     echo "             --no-third-party don't download third party source (getter-scripts)"
     echo "             --skip-update Skip updating projects that are already checked out (useful if you have local changes)"
     echo
     echo "  build: Configure, build, test (optional), and pre-install all projects"
-    echo "    options: --xxx=yyy (will be passed through to configure)"
+    echo "    options: --main-proj=Xxx (main project is Xxx)"
+    echo "             --xxx=yyy (will be passed through to configure)"
     echo "             --parallel-jobs=n build in parallel with maximum 'n' jobs"
     echo "             --build-dir=\dir\to\build\in do a VPATH build (default: $PWD/build)"
     echo "             --test run unit test of main project before install"
@@ -42,6 +47,7 @@ function help {
     echo "General options:"
     echo "  --debug: Turn on debugging output"
     echo "  --no-prompt: Turn on non-interactive mode"
+    echo "  --help: Print help"
     echo 
 }
 
@@ -255,7 +261,11 @@ function parse_args {
 
 function user_prompts {
 
-    # Help
+    echo "For help, re-run with --help"
+    if [ $no_prompt = fals ]; then
+        echo "Entering interactive mode (suppress with --no-prompt)..."
+        echo 
+    fi
     if [ $num_actions = 0 ]; then
         if [ $no_prompt = "false" ]; then
             echo "Please choose an action by typing 1-3."
@@ -394,21 +404,21 @@ function user_prompts {
     fi
 
     if [ x$main_proj != x ]; then
-        if [ $VCS = "git" ]; then
-            if [ x$main_proj_version = x ]; then
+        if [ `echo $main_proj | cut -d ":" -f 1` = https ]; then
+            #We assume this is a fork of a git project 
+            main_proj=`echo $main_proj | cut -d '/' -f 5 | cut -d '.' -f 1`
+            main_proj_url="https://github.com/coin-or/$main_proj"
+        elif [ $VCS = "git" ]; then
+            main_proj_url="https://github.com/coin-or/$main_proj"
+        else
+            main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
+        fi
+        if [ x$main_proj_version = x ]; then
+            if [ `echo $main_proj_url | cut -d '/' -f 3` = "projects.coin-or.org"]; then
+                main_proj_version=trunk
+            else
                 main_proj_version=master
             fi
-            if [ `echo $main_proj | cut -d ":" -f 1` = https ]; then
-                main_proj_url="$main_proj"
-                main_proj=`echo $main_proj_url | cut -d '/' -f 5 | cut -d '.' -f 1`
-            else
-                main_proj_url="https://github.com/coin-or/$main_proj"
-            fi
-        else
-            if [ x$main_proj_version = x ]; then
-                main_proj_version=trunk
-            fi
-            main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
         fi
         if [ `echo $main_proj | cut -d '-' -f 1` = "CHiPPS" ]; then
             case `echo $main_proj | cut -d '-' -f 2` in
@@ -427,14 +437,9 @@ function user_prompts {
         fi
 
         if [ -d $main_proj_dir ]; then
-            if [ -d $main_proj_dir/.git ]; then
-                VCS=git
-            else
-                VCS=svn
-            fi
             if [ $fetch = "false" ]; then
                 cd $main_proj_dir
-                if [ $VCS = "git" ]; then
+                if [ -d .git ]; then
                     current_version=`git branch | grep \* | cut -d ' ' -f 2`
                     if [ $current_version = "(HEAD" ]; then
                         current_version=`git branch | grep \* | cut -d ' ' -f 5`
@@ -449,7 +454,7 @@ function user_prompts {
                 cd $root_dir
                 echo "################################################"
                 echo "### Building/installing version $current_version"
-                echo "### with existing versions of dependnecies."
+                echo "### with existing versions of dependencies."
                 echo "### Run 'fetch' first to switch versions" 
                 echo "### or to ensure correct dependencies"
                 echo "################################################"
@@ -620,9 +625,9 @@ function user_prompts {
 
 function fetch_proj {
     current_rev=
-    if [ $1 = "svn" ]; then
-        if [ -d $dir ]; then
-            cd $dir
+    if [ -d $dir ]; then
+        cd $dir
+        if [ -d .svn ]; then
             # Get current version and revision
             current_url=`svn info | fgrep "URL: https" | cut -d " " -f 2`
             current_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
@@ -671,18 +676,6 @@ function fetch_proj {
             fi
             cd $root_dir
         else
-            print_action "Fetching $dir $version"
-            svn co --non-interactive --trust-server-cert $url $dir
-            cd $dir
-            new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
-            cd $root_dir
-        fi
-    else
-        if [ $version = "trunk" ] ; then
-            version=master
-        fi
-        if [ -d $dir ]; then
-            cd $dir
             current_version=`git branch | grep \* | cut -d ' ' -f 2`
             current_rev=`git rev-parse HEAD`
             if [ $current_version != $version ]; then
@@ -706,6 +699,21 @@ function fetch_proj {
                 new_rev=`git rev-parse HEAD`
             fi
             cd $root_dir
+        fi
+    elif [ `echo $url | cut -d '/' -f 3` != "projects.coin-or.org" ]; then
+        print_action "Fetching $dir $version"
+        svn co --non-interactive --trust-server-cert $url $dir
+        cd $dir
+        rm Dependencies
+        svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > Dependencies
+        new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
+        cd $root_dir
+    else
+        if [ $version = "trunk" ] ; then
+            version=master
+        fi
+        if [ -d $dir ]; then
+            cd $dir
         else
             print_action "Fetching $dir $version"
             if [ $sparse = "true" ]; then
@@ -904,10 +912,7 @@ if [ x$main_proj != x ]; then
         dir=$main_proj_dir
         proj=$main_proj
         version=$main_proj_version
-        fetch_proj $VCS
-        if [ $VCS = "svn" ]; then
-            svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > $dir/Dependencies
-        fi
+        fetch_proj
     fi
 fi
 
@@ -949,13 +954,10 @@ do
     url=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 2`
     proj=`echo $url | cut -d '/' -f 5`
     # Set the URL of the project, the version, and the build dir
-    if [ `echo $url | cut -d '/' -f 3` != "projects.coin-or.org" ]; then
-        # If this is a URL of something other than a COIN-OR project on
-        # SVN, then we assume it's a git project
+    if [ `echo $url | cut -d '/' -f 3` = "github.com" ]; then
+        # This is a git project
         version=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 3`
-        git_project=true
     else
-        git_project=false
         if [ $proj = "BuildTools" ] &&
                [ `echo $url | cut -d '/' -f 6` = 'ThirdParty' ]; then
             if [ `echo $url | cut -d '/' -f 8` = trunk ]; then
@@ -983,7 +985,7 @@ do
             fi
         fi
         
-        if [ $VCS = "git" ]; then
+        if [ ! -d $dir ] && [ $VCS = "git" ]; then
             if [ $proj = "BuildTools" ] || [ $proj = "Data" ]; then
                 url="https://github.com/coin-or-tools/"
             else
@@ -1006,18 +1008,8 @@ do
     # Get the source (if requested)
     if [ $fetch = "true" ]; then
         if get_project $dir; then
-            if [ x$main_proj_dir = x ]; then
-                if [ $git_project = "true" ]; then
-                    fetch_proj git
-                else
-                    fetch_proj $VCS
-                fi
-            elif [ $dir != $main_proj_dir ]; then
-                if [ $git_project = "true" ]; then
-                    fetch_proj git
-                else
-                    fetch_proj $VCS
-                fi
+            if [ x$main_proj_dir = x ] ||  [ $dir != $main_proj_dir ]; then
+                fetch_proj
             fi
         else
             echo "Skipping $proj..."
