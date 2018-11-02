@@ -414,7 +414,7 @@ function user_prompts {
             main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
         fi
         if [ x$main_proj_version = x ]; then
-            if [ `echo $main_proj_url | cut -d '/' -f 3` = "projects.coin-or.org"]; then
+            if [ `echo $main_proj_url | cut -d '/' -f 3` = "projects.coin-or.org" ]; then
                 main_proj_version=trunk
             else
                 main_proj_version=master
@@ -700,7 +700,7 @@ function fetch_proj {
             fi
             cd $root_dir
         fi
-    elif [ `echo $url | cut -d '/' -f 3` != "projects.coin-or.org" ]; then
+    elif [ `echo $url | cut -d '/' -f 3` = "projects.coin-or.org" ]; then
         print_action "Fetching $dir $version"
         svn co --non-interactive --trust-server-cert $url $dir
         cd $dir
@@ -954,7 +954,7 @@ do
     url=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 2`
     proj=`echo $url | cut -d '/' -f 5`
     # Set the URL of the project, the version, and the build dir
-    if [ `echo $url | cut -d '/' -f 3` = "github.com" ]; then
+    if [ `echo $url | cut -d '/' -f 3` != "projects.coin-or.org" ]; then
         # This is a git project
         version=`echo $entry | tr '\t' ' ' | tr -s ' '| cut -d ' ' -f 3`
     else
