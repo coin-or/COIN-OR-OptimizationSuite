@@ -992,6 +992,9 @@ do
                 url="https://github.com/coin-or/"
             fi
             # Convert SVN URL to a Github one and check out with git
+            if [ `echo $version | cut -d '/' -f 1` = "branches" ]; then
+                version=`echo $version | cut -d '/' -f 2`
+            fi
             svn_repo=`echo $url | cut -d '/' -f 5`
             if [ `echo $dir | cut -d "/" -f 1` = "ThirdParty" ]; then
                 url+=`echo $dir | sed s"|/|-|"`
