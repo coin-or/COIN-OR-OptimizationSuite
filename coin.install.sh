@@ -404,6 +404,7 @@ function user_prompts {
     fi
 
     if [ x$main_proj != x ]; then
+        # First guess at correct values, change later if project already exists)
         if [ `echo $main_proj | cut -d ":" -f 1` = https ]; then
             #We assume this is a fork of a git project 
             main_proj=`echo $main_proj | cut -d '/' -f 5 | cut -d '.' -f 1`
@@ -436,9 +437,22 @@ function user_prompts {
             main_proj_dir=$main_proj
         fi
 
+        # Check whether project is already checked out 
         if [ -d $main_proj_dir ]; then
+            cd $main_proj_dir
+            # Possibly switch url and version for existing projects
+            if [ -d .git ]; then
+                if [ $main_proj_version = "trunk" ]; then
+                    main_proj_version=master
+                fi
+                main_proj_url="https://github.com/coin-or/$main_proj"
+            else
+                if [ $main_proj_version = "master" ]; then
+                    main_proj_version=trunk
+                fi
+                main_proj_url="https://projects.coin-or.org/svn/$main_proj/$main_proj_version/$main_proj"
+            fi    
             if [ $fetch = "false" ]; then
-                cd $main_proj_dir
                 if [ -d .git ]; then
                     current_version=`git branch | grep \* | cut -d ' ' -f 2`
                     if [ $current_version = "(HEAD" ]; then
@@ -451,7 +465,6 @@ function user_prompts {
                         current_version=`echo $url | cut -d '/' -f 6-7`
                     fi
                 fi
-                cd $root_dir
                 echo "################################################"
                 echo "### Building/installing version $current_version"
                 echo "### with existing versions of dependencies."
@@ -479,7 +492,11 @@ function user_prompts {
                     esac
                 fi
             fi
-        elif [ $fetch = "false" ]; then
+            cd $root_dir
+        fi
+
+        # Check whether project is not checked out and fetching is not requested
+        if [ ! -d $main_proj_dir ] && [ $fetch = "false" ]; then
             echo "It appears that project has not been fetched yet."
             if [ $no_prompt = "false" ]; then
                 echo "Fetch now? y/n"
@@ -660,17 +677,30 @@ function fetch_proj {
             if [ $current_version != $version ]; then
                 print_action "Switching $dir to $version"
                 svn --non-interactive --trust-server-cert switch $url
+                if [ $dir = $main_proj_dir ]; then
+                    rm -f Dependencies
+                    svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > Dependencies
+                fi
                 new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
-                if [ -e $build_dir/$dir ]; then
+                if [ x$build_dir != x ] && [ -e $build_dir/$dir ]; then
                     cd $build_dir/$dir
-                    if [ -e .config.status ]; then
+                    if [ -e config.status ]; then
+                        print_action "Cleaning previous build"
                         make clean
                     fi
+                elif [ x$build_dir = x ]; then
+                    echo
+                    echo "### Warning: Switching verions, may need to 'make clean'" 
+                    echo "###          when re-building in existing build directory"
                 fi
             else
                 if [ $skip_update = "false" ]; then
                     print_action "Updating $dir"
                     svn --non-interactive --trust-server-cert update
+                    if [ $dir = $main_proj_dir ]; then
+                        rm -f Dependencies
+                        svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > Dependencies
+                    fi
                 fi
                 new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
             fi
@@ -685,11 +715,16 @@ function fetch_proj {
                     git pull
                 fi
                 new_rev=`git rev-parse HEAD`
-                if [ -e $build_dir/$dir ]; then
+                if [ x$build_dir != x ] && [ -e $build_dir/$dir ]; then
                     cd $build_dir/$dir
-                    if [ -e .config.status ]; then
+                    if [ -e config.status ]; then
+                        print_action "Cleaning previous build"
                         make clean
                     fi
+                elif [ x$build_dir = x ]; then
+                    echo
+                    echo "### Warning: Switching verions, may need to 'make clean'" 
+                    echo "###          when re-building in existing build directory"
                 fi
             else
                 if [ $skip_update = "false" ]; then
@@ -704,8 +739,10 @@ function fetch_proj {
         print_action "Fetching $dir $version"
         svn co --non-interactive --trust-server-cert $url $dir
         cd $dir
-        rm Dependencies
-        svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > Dependencies
+        if [ $dir = $main_proj_dir ]; then
+            rm -f Dependencies
+            svn cat --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$proj/$version/Dependencies > Dependencies
+        fi
         new_rev=`svn info | fgrep "Revision:" | cut -d " " -f 2`
         cd $root_dir
     else
@@ -883,7 +920,7 @@ run_all_tests=false
 declare -A configure_options
 configure_options=()
 jobs=1
-build_dir=$PWD/build
+build_dir=
 reconfigure=false
 get_third_party=true
 verbosity=4
@@ -902,7 +939,14 @@ echo
 
 parse_args "$@"
 
+if [ $build = "true" ] || [ $install = "true" ] || [ $uninstall = "true" ]; then
+    if [ x$build_dir = x ] ; then
+        build_dir=$PWD/build
+    fi
+fi
+
 user_prompts
+
 
 # Fetch main project first
 
