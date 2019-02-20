@@ -390,8 +390,8 @@ function user_prompts {
             16)  main_proj=Bonmin;;
             17)  main_proj=Couenne;;
             18)  main_proj=OS;;
-            19)  main_proj=DisCO;;
-            20)  main_proj=MibS;;
+            19)  main_proj=MibS;;
+            20)  main_proj=DisCO;;
             21)  ;;
             22)
                 echo "Enter the name or URL of the project"
@@ -690,7 +690,7 @@ function fetch_proj {
                     fi
                 elif [ x$build_dir = x ]; then
                     echo
-                    echo "### Warning: Switching verions, may need to 'make clean'" 
+                    echo "### Warning: Switching versions, may need to 'make clean'" 
                     echo "###          when re-building in existing build directory"
                 fi
             else
@@ -723,7 +723,7 @@ function fetch_proj {
                     fi
                 elif [ x$build_dir = x ]; then
                     echo
-                    echo "### Warning: Switching verions, may need to 'make clean'" 
+                    echo "### Warning: Switching versions, may need to 'make clean'" 
                     echo "###          when re-building in existing build directory"
                 fi
             else
