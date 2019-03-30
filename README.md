@@ -1,62 +1,47 @@
 # COIN-OR OPTIMIZATION SUITE 1.8
 
-[![Build Status](https://travis-ci.org/coin-or/COIN-OR-OptimizationSuite.svg?branch=master)](https://travis-ci.org/coin-or/COIN-OR-OptimizationSuite)
-
 The COIN-OR Optimization Suite is a collection of interoperable open source
 solvers from the respository of open source software maintained by the COIN-OR
 Foundation. It consists of the following projects.
 
- * [CoinUtils](http://projects.coin-or.org/CoinUtils) (COIN-OR utility library)
- * [Osi](http://projects.coin-or.org/Osi) (Open Solver Interface)
- * [Clp](http://projects.coin-or.org/Clp) (COIN-OR LP Solver)
- * [FlopCpp](http://projects.coin-or.org/FlopCpp) (C++-based algebraic modeling language)
- * [DyLP](http://projects.coin-or.org/DyLP) (LP solver based on dynamic simplex method)
- * [Vol](http://projects.coin-or.org/Vol) (approximate LP solver based on Volume Algorithm)
+ * [CoinUtils](https://github.com/coin-or/CoinUtils) (COIN-OR utility library)
+ * [Osi](https://github.com/coin-or/Osi) (Open Solver Interface)
+ * [Clp](https://github.com/coin-or/Clp) (COIN-OR LP Solver)
+ * [FlopCpp](https://github.com/coin-or/FlopCpp) (C++-based algebraic modeling language)
+ * [DyLP](https://github.com/coin-or/DyLP) (LP solver based on dynamic simplex method)
+ * [Vol](https://github.com/coin-or/Vol) (approximate LP solver based on Volume Algorithm)
  * [Cgl](http://projects.coin-or.org/Cgl) (Cut generation library)
- * [SYMPHONY](http://projects.coin-or.org/SYMPHONY) (MILP solver framework)
- * [Cbc](http://projects.coin-or.org/Cbc) (COIN-OR branch-and-cut MILP solver)
- * [Smi](http://projects.coin-or.org/Smi) (Stochastic modeling interface)
- * [CoinMP](http://projects.coin-or.org/CoinMP) (Unified C API for Cbc and Clp)
- * [Bcp](http://projects.coin-or.org/Bcp) (Branch, cut, and price framework)
- * [Ipopt](http://projects.coin-or.org/Ipopt) (Interior point algorithm for non-linear optimization)
- * [CHiPPS](http://projects.coin-or.org/CHiPPS) (COIN-OR High Performance Parallel Search framework)
-   * Alps (Abstract Library for Parallel Search)
-   * BiCePS (Branch, Constrain, and Price Software)
-   * Blis (BiCePS Linear Integer Solver)
- * [Dip](http://projects.coin-or.org/Dip) (Decomposition-based MILP solver framework)
- * [CppAD](http://projects.coin-or.org/CppAD) (Automatic differentiation in C++)
- * [Bonmin](http://projects.coin-or.org/Bonmin) (Solver for Convex MINLP)
- * [Couenne](http://projects.coin-or.org/Couenne) (Solver for non-convex MINLP)
- * [OS](http://projects.coin-or.org/OS) (Optimization Services)
+ * [SYMPHONY](https://github.com/coin-or/SYMPHONY) (MILP solver framework)
+ * [Cbc](https://github.com/coin-or/Cbc) (COIN-OR branch-and-cut MILP solver)
+ * [Smi](https://github.com/coin-or/Smi) (Stochastic modeling interface)
+ * [CoinMP](https://github.com/coin-or/CoinMP) (Unified C API for Cbc and Clp)
+ * [Bcp](https://github.com/coin-or/Bcp) (Branch, cut, and price framework)
+ * [Ipopt](https://github.com/coin-or/Ipopt) (Interior point algorithm for non-linear optimization)
+ * CHiPPS (COIN-OR High Performance Parallel Search framework)
+   * [Alps](https://github.com/coin-or/CHiPPS-ALPS) (Abstract Library for Parallel Search)
+   * [BiCePS](https://github.com/coin-or/CHiPPS-BiCePS) (Branch, Constrain, and Price Software)
+   * [Blis](https://github.com/coin-or/CHiPPS-BLIS) (BiCePS Linear Integer Solver)
+ * [Dip](https://github.com/coin-or/Dip) (Decomposition-based MILP solver framework)
+ * [CppAD](https://github.com/coin-or/CppAD) (Automatic differentiation in C++)
+ * [Bonmin](https://github.com/coin-or/Bonmin) (Solver for Convex MINLP)
+ * [Couenne](https://github.com/coin-or/Couenne) (Solver for non-convex MINLP)
+ * [OS](https://github.com/coin-or/OS) (Optimization Services)
+ * [MibS](https://github.com/coin-or/MibS) (Mixed Integer Bilevel Solver)
+ * [DisCO](https://github.com/coin-or/DisCO) (Discrete Conic Optimization )
  * [Application Templates](https://projects.coin-or.org/CoinBazaar/wiki/Projects/ApplicationTemplates) (Examples)
 
 # INSTALL
 
 ## Pre-built Binaries
 
-The [CoinBinary](http://projects.coin-or.org/CoinBinary) project is a
-long-term effort to provide pre-built binaries and installers for popular
-platforms. You can download some binaries at
-
-http://www.coin-or.org/download/binary/OptimizationSuite
-
-but beware these are not automatically built and may be out of date. AMPL also
-kindly provides executables of some solvers for download at
+Binaries for most platforms are available for download from [Bintray](https://bintray.com/coin-or/download/). 
+Binaries can also be installed on specific platforms, as follows. AMPL also kindly provides executables of some 
+solvers for download at
 
 http://ampl.com/products/solvers/open-source/.
 
 We are working on some other better ways of getting binaries, such as conda
 packages, and will keep this README updated as things progress.
-
-## Docker Image
-
-The Docker image available at
-
-https://hub.docker.com/r/tkralphs/coinor-optimization-suite/
-
-is another excellent way to use the COIN-OR Optimization Suite. For details on
-how to obtain and use this image, see the project's Github page
-[here](https://github.com/tkralphs/optimization-suite-docker).
 
 ## Installers
 
@@ -65,14 +50,17 @@ how to obtain and use this image, see the project's Github page
 There is a Windows GUI installer available
 [here](http://www.coin-or.org/download/binary/OptimizationSuite) for
 installing libraries compatible with Visual Studio (you will need to install
-the free Intel compiler redistributable libraries).
+the free Intel compiler redistributable libraries). This may get updated someday, but in the meantime, 
+you can get binaries from [BinTray](http://bintray.com/coin-or/download).
 
 ### OS X
 
 There are Homebrew recipes for some projects available [here](https://github.com/coin-or-tools/homebrew-coinor). Just do
 ```
 brew tap coin-or-tools/coinor
+brew install XXX
 ```
+It is also easy to build binaries from source with [coinbrew](https://github.com/coin-or/coinbrew).
 
 ### Linux 
 
@@ -81,6 +69,17 @@ the suite and we are investigating the possiblity of providing Linuxbrew
 packages.
  * Click [here](https://packages.debian.org/search?keywords=coinor&searchon=names&suite=stable&section=all) for list of Debian packages.
  * Click [here](https://apps.fedoraproject.org/packages/s/coin-or) for a list of Fedora packages.
+It is also easy to build binaries from source with [coinbrew](https://github.com/coin-or/coinbrew).
+
+## Docker Image
+
+The Docker image available at
+
+https://hub.docker.com/r/tkralphs/coinor-optimization-suite/
+
+is another excellent way to use the COIN-OR Optimization Suite, although it is currently out of date. For details on
+how to obtain and use this image, see the project's Github page
+[here](https://github.com/tkralphs/optimization-suite-docker).
 
 ## Other Installation Methods
 
@@ -108,224 +107,246 @@ hardware/software may also not be supported in distributed binaries (parallel
 builds, MPI) Once you understand how to get and build source, it is
 much faster to get bug fixes.
 
-## Building on Windows (MSys2/CYGWIN and MinGW/MSVC)
+### Building on Linux
+
+Most Linux distributions come with all the required tools installed. To obtain
+the source code, the first step is to get the installer that will then
+fetch the source for `ProjName` and all its dependencies. *You do not need to
+clone the repository first, just do the following!* Open a terminal and execute
+
+```
+git clone https://www.github.com/coin-or/coinbrew
+```
+
+Next, to check out source code for and build all the necessary projects
+(including dependencies), execute the script in the `coinbrew`
+subdirectory. To execute the script, do
+
+```
+cd coinbrew
+chmod u+x coinbrew
+./coinbrew
+```
+
+(Note: The `chmod` command is only needed if the execute permission is not
+automatically set by git on cloning). Once you run the script,
+you will be prompted interactively to select a project to fetch and build. The
+rest should happen automagically. Alternatively, the following command-line
+incantation will execute the procedure non-interactively.
+
+```
+./coinbrew fetch --no-prompt --main-proj=ProjName --main-proj-version=stable/x.y
+./coinbrew build --no-prompt --main-proj=ProjName --prefix=/path/to/install/dir --verbosity=1
+./coinbrew install --main-proj=ProjName
+```
+Note that is no prefix is specified, the package will be installed in the build 
+directory and no separate install step is necessary. 
+Options that would have been passed to the `configure` script under the old
+build system can simply be added to the command-line. For example, to build
+with debugging symbols, do
+
+```
+./coinbrew build --no-prompt --main-proj=ProjName --prefix=/path/to/install/dir --verbosity=1 --enable-debug
+```
+
+To get help with additional options available in running the script, do
+
+```
+./coinbrew --help
+```
+
+The above procedures will build all required dependencies and SYMPHONY itself.
+Afterwards, the binaries will be installed in the directory `/path/to/install/dir/bin`
+and the libraries in the directory `/path/to/install/dir/lib`. 
+
+After installation, you will also need to add `/path/to/install/dir/bin` to your
+`PATH` variable in your `.bashrc` and also add `/path/to/install/dir/lib`
+to your `LD_LIBRARY_PATH` if you want to link to COIN libraries. 
+
+### Building on Windows (MSys2/CYGWIN and MinGW/MSVC)
 
 By far, the easiest way to build on Windows is with the GNU autotools and the
-MinGW compilers.  
- 1. The first step is to install either [Msys2](https://msys2.github.io/) or
- [CYGWIN](http://cygwin.org/). If you don't already
- have CYGWIN installed, it is recommended to use MSys2, since it provides a
- minimal toolset that is easy to install.    
- 2. To get MSys2, either download the installer
- [here](https://msys2.github.io/) or download and unzip MSys2 base from
- [here](http://kent.dl.sourceforge.net/project/msys2/Base/x86_64/msys2-base-x86_64-20150512.tar.xz). 
- 3. Either run `msys2_shell.bat` or manually add `msys64\usr\bin`,
- `msys64\mingw32\bin`, and `msys64\mingw64\bin` to your Windows path.   
- 4. Open a Windows terminal and type
+GCC compilers. The first step is to install either
+   * [Msys2](https://msys2.github.io/)
+   * [CYGWIN](http://cygwin.org/)
+   * [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+Bash and the gcc compilers also come with the [Anaconda Python distribution](https://www.anaconda.com/distribution/)
 
-   ```
-   bash
-   pacman -S make wget tar patch dos2unix diffutils svn
-   ```
+If you don't already have CYGWIN installed and don't want to fool around with
+WSL (which is a great option if you already know your way around Unix), it is
+recommended to use MSys2, since it provides a minimal toolset that is easy to
+install. To get MSys2, either download the installer
+[here](https://msys2.github.io/) or download and unzip MSys2 base from
+[here](http://kent.dl.sourceforge.net/project/msys2/Base/x86_64/msys2-base-x86_64-20190512.tar.xz) 
+(this is an out-of-date version, there may be a better place to get an archive
+version). 
 
- 5. Obtain the source code with 
+Following any of the above steps, you should have the `bash` command
+(with Msys2, be sure to run `msys2_shell.bat` 
+or manually add `msys64\usr\bin`, `msys64\mingw32\bin`, and
+`msys64\mingw64\bin` to your Windows path).   
 
-   ```
-   svn co \
-   http://www.coin-or.org/svn/CoinBinary/OptimizationSuite/stable/1.8 \
-   COIN-1.8
-   ```
+Once you have bash installed and in your `PATH`, open a Windows terminal and
+type 
 
-   Note that is it also possible to obtain the source with `git` (see section
-   on this below) or as a zip file or tarball from
-   
-   http://www.coin-or.org/download/source/OptimizationSuite
-   
- 6. Finally, build with
+```
+bash
+pacman -S make wget tar patch dos2unix diffutils git svn
+git clone https://www.github.com/coin-or/coinbrew
+```
 
-   ```
-   cd COIN-1.8
-   ./get.AllThirdParty
-   mkdir build
-   cd build
-   ../configure --with-gmpl --enable-gnu-packages
-   make install
-   ```
+Next, to check out source code for and build all the necessary projects
+(including dependencies), execute the script in the `COIN-OR-OptimizationSuite`
+subdirectory. To execute the script, do
 
- 7. To use the resulting binaries and/or libraries, you will need to add the
- full path of the directory `COIN-1.8\build\bin` to your Windows executable
- search `PATH`, or, alternatively, copy this directory to `C:\Program Files
- (x86)` and add the directory `C:\Program Files (x86)\COIN-1.8\bin` to your
- Windows executable search `PATH`. You may also consider copying the
- `build\lib` and `build\include` directories if you want to link to the
- COIN-OR libraries.
+```
+cd coinbrew
+chmod u+x coinbrew
+./coinbrew
+```
+
+(Note: The `chmod` command is only needed if the execute permission is not
+automatically set by git on cloning). Once you run the script,
+you will be prompted interactively to select a project to fetch and build. The
+rest should happen automagically. Alternatively, the following command-line
+incantation will execute the procedure non-interactively.
+
+```
+./coinbrew fetch --no-prompt --main-proj=ProjName --main-proj-version=stable/x.y
+./coinbrew build --no-prompt --main-proj=ProjName --prefix=C:\path\to\install\dir --verbosity=1
+./coinbrew install --main-proj=ProjName
+```
+Note that is no prefix is specified, the package will be installed in the build 
+directory and no separate install step is necessary. 
+Options that would have been passed to the `configure` script under the old
+build system can simply be added to the command-line. For example, to build
+with debugging symbols, do
+
+```
+./coinbrew build --no-prompt --main-proj=ProjName --prefix=C:\path\to\install\dir --verbosity=1 --enable-debug
+```
+
+To get help with additional options available in running the script, do
+
+```
+./coinbrew --help
+```
+
+The above procedures will build all required dependencies and ProjName itself.
+Afterwards, the binaries will be installed in the directory `C:\path\to\install\dir\bin`
+and the libraries in the directory `C:\path\to\install\dir\lib`. 
+
+To use the resulting binaries and/or libraries, you will need to add the
+full path of the directory `build\bin` to your Windows executable
+search `PATH`, or, alternatively, copy the conents of the build directory to 
+`C:\Program Files (x86)\ProjName` and add the directory
+`C:\Program Files (x86)\ProjName\bin` 
+to your Windows executable search `PATH`. You may also consider adding
+`C:\Program Files (x86)\ProjName\lib` to the `LIB` path and 
+`C:\Program Files (x86)\ProjName\include` to the `INCLUDE` path. 
 
 It is possible to use almost the exact same commands to build with the Visual
 Studio compilers. Before doing any of the above commands in the Windows
-terminla, first run the `vcvarsall.bat` script for your version of Visual
+terminal, first run the `vcvarsall.bat` script for your version of Visual
 Studio. Note that you will also need a compatible Fortran compiler if you want
 to build any projects requiring Fortran (`ifort` is recommended, but not
-free). Then follow all the steps above, but replace the `configure` command
+free). Then follow all the steps above, but replace the `build` command
 with
 
 ```
-../configure --enable-msvc --with-gmpl --enable-gnu-packages
+./coinbrew build --no-prompt --main-proj=ProjName --prefix=C:\path\to\install\dir --verbosity=1 --enable-msvc
 ```
 
 ## Building on Windows (Visual Studio IDE)
 
-Building on Visual Studio with the IDE is not recommended, but there are
-MSVC solution files available for doing this. Obtain the source code
-using [Tortoise SVN](http://tortoisesvn.net) from the URL
+After obtaining source for the projects you want to build with [coinbrew](https://github.com/coin-or/coinbrew),
+find the solution file in the directory `MSVisualStudio`. Note that some projects that require a Fortran compiler cannot be built this way. 
 
-http://www.coin-or.org/svn/CoinBinary/OptimizationSuite/stable/1.8
-
-and then find the solution file in the directory `MSVisualStudio\v10`. Opening
-this solution file should work in any version of MSVC++. Note that this will
-not build some projects that require a Fortran compiler. 
-
-## Building on OS X
+### Building on OS X
 
 OS X is a Unix-based OS and ships with many of the basic components needed to
 build COIN-OR, but it's missing some things. For examples, the latest versions
 of OS X come with the `clang` compiler but no Fortran compiler. You may also
-be missing the `wget` utility and a `subversion` client (needed for obtaining
-source code). The easiest way to get these missing utilitites is to install
-Homebrew (see http://brew.sh). After installation, open a terminal and do
+be missing the `wget` utility and `subversion` and `git` clients (needed for
+obtaining source code). The easiest way to get these missing utilitites is to
+install Homebrew (see http://brew.sh). After installation, open a terminal and
+do
 
 ```
-brew install gcc wget svn
+brew install gcc wget svn git
 ```
 
-To obtain the source code, open a terminal and do
+To obtain
+the source code, the first step is to get the installer that will then
+fetch the source for ProjName and all its dependencies. *You do not need to
+clone ProjName first, just do the following!* Open a terminal and execute
 
 ```
-svn co \
-http://www.coin-or.org/svn/CoinBinary/OptimizationSuite/stable/1.8 \
-COIN-1.8
+git clone https://www.github.com/coin-or/coinbrew
 ```
 
-Note that is it also possible to obtain the source with `git` (see section
-on this below). Finally, build with
+Next, to check out source code for and build all the necessary projects
+(including dependencies), execute the script in the `coinbrew`
+subdirectory. To execute the script, do
 
 ```
-cd COIN-1.8
-./get.AllThirdParty
-mkdir build
-cd build
-../configure --prefix=/your/install/dir --with-gmpl --enable-gnu-packages
-make
-make install
+cd coinbrew
+chmod u+x coinbrew
+./coinbrew
 ```
 
-With this setup, `clang` will be used for compiling C++ by default and
-`gfortran` will be used for Fortran. Since `clang` uses the GNU standard
-library, `gfortran` is compatible.
-
-If you want to use the `gcc` compiler provided by Homebrew, then replace the
-`configure` command above with
+(Note: The `chmod` command is only needed if the execute permission is not
+automatically set by git on cloning). Once you run the script,
+you will be prompted interactively to select a project to fetch and build. The
+rest should happen automagically. Alternatively, the following command-line
+incantation will execute the procedure non-interactively.
 
 ```
-../configure --with-gmpl --enable-gnu-packages CC=gcc-5 CXX=g++-5
+./coinbrew fetch --no-prompt --main-proj=ProjName --main-proj-version=stable/x.y
+./coinbrew build --no-prompt --main-proj=ProjName --prefix=/path/to/install/dir --verbosity=1
+./coinbrew install --main-proj=ProjName
 ```
-Afterward, you will also need to add `/your/install/dir/bin` to your
-`PATH` variable in your `.bashrc` and also add `/your/install/dir/lib`
+Note that is no prefix is specified, the package will be installed in the build 
+directory and no separate install step is necessary. 
+Options that would have been passed to the `configure` script under the old
+build system can simply be added to the command-line. For example, to build
+with debugging symbols, do
+
+```
+./coinbrew build --no-prompt --main-proj=ProjName --prefix=/path/to/install/dir --verbosity=1 --enable-debug
+```
+
+To get help with additional options available in running the script, do
+
+```
+./coinbrew --help
+```
+After installation, you will also need to add `/path/to/install/dir/bin` to your
+`PATH` variable in your `.bashrc` and also add `/path/to/install/dir/lib`
 to your `DYLD_LIBRARY_PATH` if you want to link to COIN libraries. 
-
-### Building on Linux
-
-Most Linux distributions come with all the required tools installed.
-To obtain the source code, open a terminal and do
-
-```
-svn co \
-http://www.coin-or.org/svn/CoinBinary/OptimizationSuite/stable/1.8 \
-COIN-1.8
-```
-
-Note that it is also possible to obtain the source with `git` (see section
-on this below). Finally, build with
-
-```
-cd COIN-1.8
-./get.AllThirdParty
-mkdir build
-cd build
-../configure --prefix --with-gmpl --enable-gnu-packages
-make
-make install
-```
-Afterward, you will also need to add `/your/install/dir/bin` to your
-`PATH` variable in your `.bashrc` and also add `/your/install/dir/lib`
-to your `LD_LIBRARY_PATH` if you want to link to COIN libraries. 
 
 # Additional Useful Information
 
-## Working with Single Projects
-
-If you want to check out and build only a single COIN project and all of its
-dependencies, the above instructions will work with only slight modification.
-Simply obtain the source code for that project either as a zip file or tarball
-from
-
-http://www.coin-or.org/download/source
-
-by clicking on the subdirectory for the appropriate project or by replacing the
-command above for checking out the source code with `svn` by
-
-```
-svn co \
-http://www.coin-or.org/svn/ProjName/releases/x.y.z ProjName-x.y.z
-```
-
-where `ProjName` is the short name of the project, e.g., `Cbc` and `x.y.z` is the
-version number (see below for more on version numbers).
-
 ## Organization of the repositories
 
-Most projects are currently managed with using `subversion`. Within
-subversion, repositories have a folder-based hierachical straucture. At the
-top level, all repositories have the following directory structure. 
-```
-html/
-conf/
-branches/
-trunk/
-stable/
-releases/
-```
-The `trunk/` is where development takes place, so this represents the "bleeding
-edge" code. The `stable/` directory contains the subdirectories with source
-code for tested versions of the code that are guaranteed to have a fixed API
-and fixed functionality, but may change when bug fixes are applied and
-internal implementations are improved. Stable versions have two digits (see
-below for explanation). The `release/` directory has fixed releases that will
-never change. These are snapshots of an associated stable version. Release
-versions have three digits (see below). If you are using `subversion` or `git`
-to get code, you generally want the latest stable version. If you are
-downloading a tarball or zip file, you want the latest release.
+All projects are now (or will soon be) managed using `git`. Within
+the repository, the development branch is `master`, while branches named 
+`stable/x.y` contain long-running stable versions and tags names
+`releases/x.y.z` indicate point releases. 
 
-For a source checkout of a single version of the code, the source tree for
-the root of project ProjName looks something like this
+The source tree for the root of project Xxx currently looks something like this
 
 ```
 ProjName/
 doxydoc/
-INSTALL
-README
+INSTALL.md
+README.md
 AUTHORS
 Dependencies 
 configure 
 Makefile.am
 ... 
 ```
-
-The files in the root directory are for doing *monolithic* builds (builds
-including the project *and* the dependencies. The `Dependencies` file contains
-the list of URLs for all dependent projects, but source code for these is
-pulled in automatically using the `svn externals` mechanism. If you only want
-to build the project itself and lnk against installed  
-binaries of other projects, you only need the `ProjName` subdirectory. 
 
 The `ProjName` subdirectory for project `ProjName` looks something like this.
 
@@ -347,25 +368,6 @@ The files in this subdirectory are for building the library of the project
 itself, with no dependencies, with the exception of the `MSVisualStudio`
 directory, which contains solution files that include dependencies.  
 
-## Building the Library of a Single Project
-
-Assuming some libraries are already installed in `/some/dir`, you can check
-out the code for and build an individual project library (without
-dependencies) for project `ProjName`, as follows. 
-
-```
-svn co http://projects.coin-or.org/svn/ProjName/stable/x.y/ProjName ProjName-x.y
-cd ProjName-x.y
-mkdir build
-cd build
-../configure --enable-gnu-packages -C --with-coin-instdir=/some/dir
-make -j 2 
-make test
-make install
-```
-Note that this checks out `ProjName` without externals and links against
-installed libraries.
-
 ## About version numbers 
 
 COIN numbers versions by a standard semantic versioning scheme: each version
@@ -376,49 +378,6 @@ digits, e.g., `1.1`, whereas the releases have three digits, e.g., `2.1.0`.
 The first two digits of the release version number indicates the stable series
 of which the release is a snapshot. The third digit is the release number in
 that series.
-
-## Working With Git
-
-Although the Optimization Suite and most of the projects that are a part of it
-are managed natively using subversion, you can also get the source from
-[COIN-OR's Github site](https://github.com/coin-or). The git repositories
-there are mirrors of the subversion repositories. To get the source for
-project `ProjName`, open a terminal and execute
-
-```
-git clone https://github.com/coin-or/ProjName
-```
-
-The `trunk/` subdirectory of each project is mirrored to the `master` branch
-and each stable versions is in a branche called `stable/x.y`. Releases are
-tags of specific SHAs in each of these stable branches. To get stable version
-`x.y`, open a terminal and execute
-
-```
-git clone --branch=stable/x.y
-```
-
-Although it is not recommended, you can also get a release `x.y.z` by doing 
-
-```
-git clone --branch=releases/x.y.z
-```
-
-To build from source, there is a script that fetches dependent projects
-and builds automatically. To get the script, do
-
-```
-git clone --branch=stable/0.8 https://github.com/coin-or-tools/BuildTools/
-```
-
-and then execute
-
-```
-BuildTools/get.dependencies fetch
-BuildTools/get.dependencies build --quiet --test
-```
-
-Run the script without arguments to see the options. 
 
 ## ThirdParty Projects
 
@@ -449,24 +408,24 @@ parallel.
  * CHiPPS uses MPI and is targeted at massive parallelism (it would be
    possible to develop a hybrid algorithm, however). To build in parallel,
    specify the location of MPI with the `--with-mpi-incdir` and `--with-mpi-lib`
-   arguments to `configure`, as follows:
+   arguments to `coinbrew build`, as follows:
 
    ```
-   configure --enable-static \ 
-             --disable-shared \
-             --with-mpi-incdir=/usr/include/mpich2 \ 
-             --with-mpi-lib="-L/usr/lib  -lmpich" \
-             MPICC=mpicc \
-             MPICXX=mpic++ \
+   --enable-static \ 
+   --disable-shared \
+   --with-mpi-incdir=/usr/include/mpich2 \ 
+   --with-mpi-lib="-L/usr/lib  -lmpich" \
+   MPICC=mpicc \
+   MPICXX=mpic++ \
    ```
 
  * SYMPHONY has both shared and distributed memory parallel modes, but we'll
  only discuss the shared memory capability here. It is enabled by default if
  the compiler supports OpenMP (`gcc` and Microsft's `cl` both do, but `clang`
  does not). To disable share memory parallel mode, use the `--disable-openmp`
- argument to `configure`.  
+ argument to `coinbrew`.  
  * Cbc has shared memory parallelism, which can be enabled with the
- `--enable-cbc-parallel` to `configure` 
+ `--enable-cbc-parallel` to `coinbrew` 
  * DIP currently has a shared memory parallel mode that works the same way as
  SYMPHONY's.
  
@@ -479,34 +438,24 @@ advantage of learning to build yourself.
  * `--enable-debug`
  * `--enable-gnu-packages`
  * `-C`
-`configure --help` lists many of the options, but beware that
-configure is recursive and the individual project also have their own options.
- * `SYMPHONY/configure --help` will list the options for SYMPHONY.
- * The options for individual projects can be given to the root `configure`
+Individual project also have their own options.
+ * `ProjName/configure --help` will list the options for project ProjName.
+ * The options for individual projects can be given to the root `coinbrew`
  script---they will be passed on to subprojects automatically.
 
 ## Documentation
 
-Some documentation on using the full optimization suite is available at
-http://projects.coin-or.org/CoinHelp and http://projects.coin-or.org/CoinEasy.
+Some documentation on using the full optimization suite will someday be available at
+http://coin-or.github.io/.
 There is also a full tutorial on the Optimization Suite and much more at
 http://coral.ie.lehigh.edu/~ted/teaching/coin-or.
 
 User's manuals and documentation for project ProjName can be obtained at either
-http://projects.coin-or.org/ProjName or http://www.coin-or.org/ProjName.
+http://coin-or.github.io/ProjName or http://www.coin-or.org/ProjName.
 Doxygen source code documentation for some projects can also be obtained at
-http://www.coin-or.org/Doxygen
+http://coin-or.github.io/Doxygen
 
 ## Support
 
 Support is available primarily through mailing lists and bug reports at
-http://list.coin-or.org/mailman/listinfo/ProjName and
-http://projects.coin-or.org/ProjName. It is also possible to submit issues
-vis Github for most projects at https://github.com/coin-or/ProjName.
-Keep in mind that the appropriate place to submit your question or bug
-report may be different from the project you are actually using.
-Make sure to report all information required to reproduce the bug
-(platform, version number, arguments, parameters, input files, etc.)
-Also, please keep in mind that support is an all-volunteer effort.
-In the near future, we will be moving away from mailing lists and towards
-support forums. 
+http://github.com/coin-orProjName/issues/new. 
