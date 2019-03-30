@@ -1,4 +1,4 @@
-# COIN-OR OPTIMIZATION SUITE 1.8
+# COIN-OR OPTIMIZATION SUITE
 
 The COIN-OR Optimization Suite is a collection of interoperable open source
 solvers from the respository of open source software maintained by the COIN-OR
