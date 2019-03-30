@@ -5,6 +5,7 @@ bin/
 Blis/
 Bonmin/
 build*
+cppad/
 Cbc/
 Cgl/
 Clp/
@@ -15,15 +16,19 @@ Couenne/
 CppAD/
 Data/
 Dip/
+DisCO/
 DyLP/
+FlopCpp/
 include/
 Ipopt/
 lib/
+MibS/
 OS/
 Osi/
 share/
 Smi/
 SYMPHONY/
 ThirdParty/
+Vol/
 BuildTools/
 examples/
