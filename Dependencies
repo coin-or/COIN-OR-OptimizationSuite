@@ -19,17 +19,17 @@ Clp               https://projects.coin-or.org/svn/Clp/trunk/Clp
 DyLP              https://projects.coin-or.org/svn/DyLP/trunk/DyLP
 Vol               https://projects.coin-or.org/svn/Vol/trunk/Vol
 Cgl               https://projects.coin-or.org/svn/Cgl/trunk/Cgl
-SYMPHONY          https://projects.coin-or.org/svn/SYMPHONY/trunk/SYMPHONY
+SYMPHONY          https://github.com/coin-or/SYMPHONY master
 Cbc               https://projects.coin-or.org/svn/Cbc/trunk/Cbc
-FlopCpp           https://projects.coin-or.org/svn/FlopCpp/trunk/FlopCpp
+FlopCpp           https://github.com/coin-or/FlopCpp master
 Smi               https://projects.coin-or.org/svn/Smi/trunk/Smi
 CoinMP            https://projects.coin-or.org/svn/CoinMP/trunk/CoinMP
 Bcp               https://projects.coin-or.org/svn/Bcp/trunk/Bcp
-Ipopt             https://projects.coin-or.org/svn/Ipopt/trunk/Ipopt
+Ipopt             https://github.com/coin-or/Ipopt master
 Alps              https://github.com/coin-or/CHiPPS-ALPS stable/1.5
 Bcps              https://github.com/coin-or/CHiPPS-BiCePS master
 Blis              https://github.com/coin-or/CHiPPS-BLIS master
-Dip               https://projects.coin-or.org/svn/Dip/trunk/Dip
+Dip               https://github.com/coin-or/Dip master
 cppad             https://github.com/coin-or/CppAD/ stable/20180000
 Bonmin            https://projects.coin-or.org/svn/Bonmin/trunk/Bonmin
 Couenne           https://projects.coin-or.org/svn/Couenne/trunk/Couenne
