@@ -27,7 +27,7 @@ CoinMP            https://projects.coin-or.org/svn/CoinMP/trunk/CoinMP
 Bcp               https://projects.coin-or.org/svn/Bcp/trunk/Bcp
 Ipopt             https://github.com/coin-or/Ipopt master
 Alps              https://github.com/coin-or/CHiPPS-ALPS stable/1.5
-Bcps              https://github.com/coin-or/CHiPPS-BiCePS master
+Bcps              https://github.com/coin-or/CHiPPS-BiCePS stable/0.94
 Blis              https://github.com/coin-or/CHiPPS-BLIS master
 Dip               https://github.com/coin-or/Dip master
 cppad             https://github.com/coin-or/CppAD/ stable/20180000
