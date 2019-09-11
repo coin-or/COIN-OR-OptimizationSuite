@@ -34,4 +34,3 @@ cppad  https://github.com/coin-or/CppAD stable/20180000
 Bonmin  https://projects.coin-or.org/svn/Bonmin/stable/1.8/Bonmin
 Couenne  https://projects.coin-or.org/svn/Couenne/stable/0.5/Couenne
 OS  https://projects.coin-or.org/svn/OS/stable/2.10/OS
-#examples  https://projects.coin-or.org/svn/CoinBazaar/projects/ApplicationTemplates/stable/1.3/
