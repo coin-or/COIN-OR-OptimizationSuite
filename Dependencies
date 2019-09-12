@@ -16,7 +16,7 @@ Data/Stochastic   https://projects.coin-or.org/svn/Data/Stochastic/trunk
 CoinUtils         https://projects.coin-or.org/svn/CoinUtils/trunk/CoinUtils
 Osi               https://projects.coin-or.org/svn/Osi/trunk/Osi
 Clp               https://projects.coin-or.org/svn/Clp/trunk/Clp
-DyLP              https://projects.coin-or.org/svn/DyLP/trunk/DyLP
+DyLP              https://projects.coin-or.org/svn/DyLP/trunkDyLP
 Vol               https://projects.coin-or.org/svn/Vol/trunk/Vol
 Cgl               https://projects.coin-or.org/svn/Cgl/trunk/Cgl
 SYMPHONY          https://github.com/coin-or/SYMPHONY master
@@ -35,4 +35,3 @@ Bonmin            https://projects.coin-or.org/svn/Bonmin/trunk/Bonmin
 Couenne           https://projects.coin-or.org/svn/Couenne/trunk/Couenne
 OS                https://projects.coin-or.org/svn/OS/trunk/OS
 MibS              https://github.com/coin-or/Mibs master
-DisCO             https://github.com/coin-or/DisCO master
