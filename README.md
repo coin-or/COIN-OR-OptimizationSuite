@@ -293,7 +293,7 @@ incantation will execute the procedure non-interactively.
 ```
 ./coinbrew fetch --no-prompt ProjName:stable/x.y
 ./coinbrew build --no-prompt ProjName --prefix=/path/to/install/dir
-./coinbrew install --main-proj=ProjName
+./coinbrew install ProjName
 ```
 Note that the prefix specified above is the directory where the packages will be
 installed. If the specified prefix is writable, then all packages will be
