@@ -740,6 +740,10 @@ doxygen-docs:
 	  if test -d "doxydoc/"; then \
 	    doxygen doxydoc/doxygen.conf;\
 	  fi;\
+	fi
+
+pdf-doxygen-docs: doxygen-docs
+	if test "$(COIN_HAS_DOXYGEN)" = TRUE; then \
 	  if test -d "doxydoc/latex"; then \
        	    if test "$(COIN_HAS_LATEX)" = TRUE; then \
 	      cd doxydoc/latex;\

@@ -13,24 +13,25 @@ Data/Sample  https://projects.coin-or.org/svn/Data/Sample/stable/1.2/
 Data/Netlib  https://projects.coin-or.org/svn/Data/Netlib/stable/1.2/
 Data/miplib3  https://projects.coin-or.org/svn/Data/miplib3/stable/1.2/
 Data/Stochastic  https://projects.coin-or.org/svn/Data/Stochastic/stable/1.1/
-CoinUtils  https://projects.coin-or.org/svn/CoinUtils/stable/2.11/CoinUtils
-Osi  https://projects.coin-or.org/svn/Osi/stable/0.108/Osi
-Clp  https://projects.coin-or.org/svn/Clp/stable/1.17/Clp
+CoinUtils  https://projects.coin-or.org/svn/CoinUtils/stable/2.11
+Osi  https://projects.coin-or.org/svn/Osi/stable/0.108
+Clp  https://projects.coin-or.org/svn/Clp/stable/1.17
 FlopCpp  https://github.com/coin-or/FlopCpp stable/1.2
-DyLP  https://projects.coin-or.org/svn/DyLP/stable/1.10/DyLP
-Vol  https://projects.coin-or.org/svn/Vol/stable/1.5/Vol
-Cgl  https://projects.coin-or.org/svn/Cgl/stable/0.60/Cgl
+DyLP  https://projects.coin-or.org/svn/DyLP/stable/1.10
+Vol  https://projects.coin-or.org/svn/Vol/stable/1.5
+Cgl  https://projects.coin-or.org/svn/Cgl/stable/0.60
 SYMPHONY  https://github.com/coin-or/SYMPHONY stable/5.6
-Cbc  https://projects.coin-or.org/svn/Cbc/stable/2.10/Cbc
-Smi  https://projects.coin-or.org/svn/Smi/stable/0.96/Smi
-CoinMP  https://projects.coin-or.org/svn/CoinMP/stable/1.8/CoinMP
-Bcp  https://projects.coin-or.org/svn/Bcp/stable/1.4/Bcp
+Cbc  https://projects.coin-or.org/svn/Cbc/stable/2.10
+Smi  https://projects.coin-or.org/svn/Smi/stable/0.96
+CoinMP  https://projects.coin-or.org/svn/CoinMP/stable/1.8
+Bcp  https://projects.coin-or.org/svn/Bcp/stable/1.4
 Ipopt  https://github.com/coin-or/Ipopt stable/3.12
 Alps  https://github.com/coin-or/CHiPPS-Alps stable/1.5
 Bcps  https://github.com/coin-or/CHiPPS-BiCePS stable/0.94
 Blis  https://github.com/coin-or/CHiPPS-BLIS stable/0.94
 Dip  https://github.com/coin-or/Dip stable/0.92
 cppad  https://github.com/coin-or/CppAD stable/20180000
-Bonmin  https://projects.coin-or.org/svn/Bonmin/stable/1.8/Bonmin
-Couenne  https://projects.coin-or.org/svn/Couenne/stable/0.5/Couenne
-OS  https://projects.coin-or.org/svn/OS/stable/2.10/OS
+Bonmin  https://projects.coin-or.org/svn/Bonmin/stable/1.8
+Couenne  https://projects.coin-or.org/svn/Couenne/stable/0.5
+OS  https://projects.coin-or.org/svn/OS/stable/2.10
+MibS https://github.com/coin-or/Mibs stable/1.1
