@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([CoinOptimizationSuite],[trunk],[https://projects.coin-or.org/CoinBinary/newticket])
+AC_INIT([CoinOptimizationSuite],[1.9],[https://github.com/coin-or/COIN-OR-OptimizationSuite/issues/nw])
 
 AC_COPYRIGHT([
 Copyright 2006 International Business Machines and others.
@@ -78,7 +78,7 @@ AC_COIN_MAIN_PACKAGEDIR(Dip)
 AC_COIN_MAIN_PACKAGEDIR(Bonmin)
 AC_COIN_MAIN_PACKAGEDIR(Couenne)
 AC_COIN_MAIN_PACKAGEDIR(OS)
-AC_COIN_MAIN_PACKAGEDIR(examples)
+AC_COIN_MAIN_PACKAGEDIR(MibS)
 
 ##############################################################################
 #                   Finishing up by writing all the output                   #
