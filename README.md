@@ -56,7 +56,7 @@ you can get binaries from [BinTray](http://bintray.com/coin-or/download).
 There are Homebrew recipes for some projects available [here](https://github.com/coin-or-tools/homebrew-coinor). Just do
 ```
 brew tap coin-or-tools/coinor
-brew install XXX
+brew install Xyz
 ```
 It is also easy to build binaries from source with [coinbrew](https://github.com/coin-or/coinbrew).
 
