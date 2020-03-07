@@ -1,5 +1,11 @@
 # COIN-OR OPTIMIZATION SUITE
 
+**Important notice**: The master branch of the Optimization Suite does not currently build 
+because of the migration of constituent projects to our new build system. This is being 
+corrected, but it will be some time before all projects are migrated. In the meantime,
+it is suggested just to build individual projects using 
+[coinbrew](https://github.com/coin-or/coinbrew). 
+
 The COIN-OR Optimization Suite is a collection of interoperable open source
 solvers from the respository of open source software maintained by the COIN-OR
 Foundation. It consists of the following projects.
