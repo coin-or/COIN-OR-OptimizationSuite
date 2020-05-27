@@ -1,10 +1,14 @@
 # COIN-OR OPTIMIZATION SUITE
 
-**Important notice**: The master branch of the Optimization Suite does not currently build 
-because of the migration of constituent projects to our new build system. This is being 
-corrected, but it will be some time before all projects are migrated. In the meantime,
-it is suggested just to build individual projects using 
-[coinbrew](https://github.com/coin-or/coinbrew). 
+**Important notice: The master branch of the Optimization Suite does not currently include
+all projects because we are mid-way through the migration to new build system and only 
+projects that have been migrated are included. This is being actively worked on, but it will 
+be some time before all projects are migrated. In the meantime, the stable/1.9 branch builds
+out of the box using [coinbrew](https://github.com/coin-or/coinbrew).**
+
+**An expanded version of this README that is updated with more details is available at**
+
+https://coin-or.github.io/user_introduction.html
 
 The COIN-OR Optimization Suite is a collection of interoperable open source
 solvers from the respository of open source software maintained by the COIN-OR
@@ -139,9 +143,8 @@ rest should happen automagically. Alternatively, the following command-line
 incantation will execute the procedure non-interactively.
 
 ```
-./coinbrew fetch --no-prompt ProjName:stable/x.y
+./coinbrew fetch --no-prompt ProjName@stable/x.y
 ./coinbrew build --no-prompt ProjName --prefix=/path/to/install/dir
-./coinbrew install ProjName
 ```
 Note that the prefix specified above is the directory where the packages will be
 installed. If the specified prefix is writable, then all packages will be
@@ -211,9 +214,8 @@ rest should happen automagically. Alternatively, the following command-line
 incantation will execute the procedure non-interactively.
 
 ```
-./coinbrew fetch --no-prompt ProjName:stable/x.y
+./coinbrew fetch --no-prompt ProjName@stable/x.y
 ./coinbrew build --no-prompt ProjName --prefix=C:\path\to\install\dir
-./coinbrew install ProjName
 ```
 Note that the prefix specified above is the directory where the packages will be
 installed. If the specified prefix is writable, then all packages will be
@@ -297,9 +299,8 @@ rest should happen automagically. Alternatively, the following command-line
 incantation will execute the procedure non-interactively.
 
 ```
-./coinbrew fetch --no-prompt ProjName:stable/x.y
+./coinbrew fetch --no-prompt ProjName@stable/x.y
 ./coinbrew build --no-prompt ProjName --prefix=/path/to/install/dir
-./coinbrew install ProjName
 ```
 Note that the prefix specified above is the directory where the packages will be
 installed. If the specified prefix is writable, then all packages will be
