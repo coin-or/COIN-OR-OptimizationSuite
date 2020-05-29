@@ -83,7 +83,7 @@ It is also easy to build binaries from source with [coinbrew](https://github.com
 
 The Docker image available at
 
-https://hub.docker.com/r/tkralphs/coinor-optimization-suite/
+https://hub.docker.com/repository/docker/coinor/coin-or-optimization-suite
 
 is another excellent way to use the COIN-OR Optimization Suite, although it is currently out of date. For details on
 how to obtain and use this image, see the project's Github page
