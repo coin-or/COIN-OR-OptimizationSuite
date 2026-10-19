@@ -62,15 +62,22 @@ Many of the projects are also available from package managers.
    ```
    conda install -c conda-forge coin-or-cbc ipopt
    ```
- * *Homebrew* (macOS and Linux): Homebrew has formulas for Cbc, Clp, Cgl, Osi,
-   CoinUtils, and Ipopt, and the
-   [coin-or-tools/coinor](https://github.com/coin-or-tools/homebrew-coinor) tap
-   has formulas for some more projects, such as SYMPHONY, DyLP, and Vol, e.g.,
+ * *Homebrew* (macOS and Linux): The COIN-OR tap
+   [coin-or-tools/coinor](https://github.com/coin-or-tools/homebrew-coinor) has
+   formulas for CoinUtils, Osi, Clp, Cgl, Cbc, SYMPHONY, DyLP, and Vol, e.g.,
    ```
-   brew install cbc
+   brew update
    brew tap coin-or-tools/coinor
-   brew install coin-or-tools/coinor/symphony
+   brew trust coin-or-tools/coinor
+   brew install coin-or-tools/coinor/cbc
    ```
+   Since version 6.0, Homebrew loads formulas from taps other than its own
+   only if you trust them. `brew trust coin-or-tools/coinor` trusts all
+   formulas of the COIN-OR tap. This is needed because installing a formula by
+   its full name trusts only that formula, not the other formulas of the tap
+   that it depends on. `brew update` makes sure that your Homebrew is recent
+   enough to have the `brew trust` command. If you added the tap before
+   Homebrew 6.0, just run `brew trust coin-or-tools/coinor` once.
  * *Linux distributions*: Debian and Ubuntu (packages
    [coinor-*](https://packages.debian.org/search?keywords=coinor&searchon=names&suite=stable&section=all)),
    Fedora (packages
