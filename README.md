@@ -143,14 +143,14 @@ sudo apt install build-essential gfortran git wget pkg-config liblapack-dev libm
 
 ### macOS
 
-macOS ships with many of the basic components (the `clang` compiler comes
-with the Xcode command line tools), but it's missing some things: `coinbrew`
-needs `bash` 4 or later (macOS ships with version 3.2), and there is no Fortran
-compiler. The easiest way to get these missing utilities is to install
-[Homebrew](https://brew.sh). After installation, open a terminal and do
+The basic tools (`make`, `git`, and the `clang` compiler) come with the Xcode
+Command Line Tools (the full Xcode is not needed), but some things are missing:
+`coinbrew` needs `bash` 4 or later (macOS ships with version 3.2), and there is
+no Fortran compiler. The easiest way to get these missing utilities is to
+install [Homebrew](https://brew.sh), whose installer also installs the Command
+Line Tools if they are missing. After installation, open a terminal and do
 
 ```
-xcode-select --install
 brew install bash gcc wget pkg-config
 ```
 
