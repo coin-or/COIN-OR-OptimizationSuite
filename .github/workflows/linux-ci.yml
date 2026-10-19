@@ -66,7 +66,8 @@ jobs:
           # ThirdParty/Mumps is not skipped because Ipopt needs a linear solver
           ADD_ARGS+=( --skip='ThirdParty/Metis ThirdParty/Blas ThirdParty/Lapack' )
           ADD_BUILD_ARGS=()
-          ADD_BUILD_ARGS+=( --tests all --enable-relocatable )
+          # The unit tests are run in the next step
+          ADD_BUILD_ARGS+=( --tests none --enable-relocatable )
           ADD_BUILD_ARGS+=( --verbosity 2 )
           [[ ${{ matrix.build_static }} == "true" ]] && \
           ADD_BUILD_ARGS+=( --static --with-lapack='-llapack -lblas -lgfortran -lquadmath -lm' )
@@ -77,6 +78,24 @@ jobs:
           ADD_CXXFLAGS="${ADD_CXXFLAGS}" CC=${CC} CXX=${CXX}
           [[ ${CC} ]] && CC="${CC}" || CC=""
           echo "CC=${CC}" >> $GITHUB_ENV
+      - name: Run the unit tests of all projects
+        run: |
+          # Run the unit tests of all projects, also if some of them fail, so
+          # that one failure doesn't hide the results of the other projects
+          # (coinbrew stops at the first failing test)
+          export LD_LIBRARY_PATH="$PWD/dist/lib:${LD_LIBRARY_PATH:-}"
+          failed=""
+          for d in $(cat build/coin_subdirs.txt); do
+            # skip projects without a test target (some ThirdParty projects)
+            make -C build/$d -n test > /dev/null 2>&1 || continue
+            echo "::group::Unit test of $d"
+            make -C build/$d test || failed="$failed $d"
+            echo "::endgroup::"
+          done
+          if [ -n "$failed" ]; then
+            echo "::error::Unit tests failed in:$failed"
+            exit 1
+          fi
       - name: Archive dist contents
         run: |
           cp ${{ github.event.repository.name }}/README.md dist/

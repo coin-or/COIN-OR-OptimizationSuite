@@ -77,7 +77,8 @@ jobs:
           # ThirdParty/Mumps is not skipped because Ipopt needs a linear solver
           ADD_ARGS+=( --skip='ThirdParty/Metis ThirdParty/Blas ThirdParty/Lapack' )
           ADD_BUILD_ARGS=()
-          ADD_BUILD_ARGS+=( --build=x86_64-w64-mingw32 --tests all --enable-relocatable )
+          # The unit tests are run in the next step
+          ADD_BUILD_ARGS+=( --build=x86_64-w64-mingw32 --tests none --enable-relocatable )
           # Ipopt's Java interface, which no project of the Suite uses,
           # fails to build here (jni.h not found)
           ADD_BUILD_ARGS+=( --disable-java )
@@ -88,6 +89,27 @@ jobs:
           ./coinbrew/coinbrew build ${{ github.event.repository.name }} ${{ env.host_flag }} \
           "${ADD_ARGS[@]}" "${ADD_BUILD_ARGS[@]}"
           cp ${{ github.event.repository.name }}/README.md dist/
+        shell: msys2 {0}
+      - name: Run the unit tests of all projects
+        run: |
+          # coinbrew builds in build-debug with --enable-debug
+          builddir=${{ matrix.debug && 'build-debug' || 'build' }}
+          # Run the unit tests of all projects, also if some of them fail, so
+          # that one failure doesn't hide the results of the other projects
+          # (coinbrew stops at the first failing test)
+          export PATH="$PWD/dist/bin:$PATH"
+          failed=""
+          for d in $(cat $builddir/coin_subdirs.txt); do
+            # skip projects without a test target (some ThirdParty projects)
+            make -C $builddir/$d -n test > /dev/null 2>&1 || continue
+            echo "::group::Unit test of $d"
+            make -C $builddir/$d test || failed="$failed $d"
+            echo "::endgroup::"
+          done
+          if [ -n "$failed" ]; then
+            echo "::error::Unit tests failed in:$failed"
+            exit 1
+          fi
         shell: msys2 {0}
       - name: Upload failed build directory
         uses: actions/upload-artifact@v6
