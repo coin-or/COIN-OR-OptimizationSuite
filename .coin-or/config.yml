@@ -25,7 +25,7 @@ Dependencies:
   - Description: ThirdParty wrapper for building GLPK
     URL: https://github.com/coin-or-tools/ThirdParty-Glpk
     Version: stable/1.10
-    Required: Recommended
+    Required: Optional
   - Description: ThirdParty wrapper for building FilterSQP
     URL: https://github.com/coin-or-tools/ThirdParty-FilterSQP
     Version: stable/1.3
