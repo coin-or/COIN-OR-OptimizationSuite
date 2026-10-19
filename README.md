@@ -176,7 +176,8 @@ tools, compilers, and libraries:
 ```
 pacman -S make wget tar patch dos2unix diffutils git pkgconf \
   mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-gcc-fortran \
-  mingw-w64-ucrt-x86_64-lapack mingw-w64-ucrt-x86_64-metis
+  mingw-w64-ucrt-x86_64-libgomp mingw-w64-ucrt-x86_64-lapack \
+  mingw-w64-ucrt-x86_64-metis
 ```
 
 It is possible to use almost the exact same commands to build with the Visual
