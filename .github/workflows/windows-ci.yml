@@ -63,13 +63,15 @@ jobs:
       # rather than ${MINGW_PACKAGE_PREFIX}-pkgconf, because the latter reports
       # Windows-style paths (D:/...), with which libtool sets up a broken PATH
       # for running the tests.
+      # libgomp is a separate package since MSYS2 split its gcc package (it
+      # is needed for SYMPHONY's and Dip's OpenMP builds).
       # gcc-fortran is needed to build MUMPS for Ipopt. MSYS2 has no CppAD
       # package, so OS is built without its interfaces to Ipopt, Bonmin, and
       # Couenne here.
       - name: Install requirements
         if: ${{ matrix.arch != 'msvc' }}
         run: |
-          pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-gcc pkgconf ${MINGW_PACKAGE_PREFIX}-gcc-fortran ${MINGW_PACKAGE_PREFIX}-lapack ${MINGW_PACKAGE_PREFIX}-metis
+          pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-gcc ${MINGW_PACKAGE_PREFIX}-libgomp pkgconf ${MINGW_PACKAGE_PREFIX}-gcc-fortran ${MINGW_PACKAGE_PREFIX}-lapack ${MINGW_PACKAGE_PREFIX}-metis
         shell: msys2 {0}
       - name: Build project
         run: |
