@@ -1,10 +1,15 @@
 # COIN-OR OPTIMIZATION SUITE
 
-**Important notice: The master branch of the Optimization Suite does not currently include
-all projects because we are mid-way through the migration to new build system and only 
-projects that have been migrated are included. This is being actively worked on, but it will 
-be some time before all projects are migrated. In the meantime, the stable/1.9 branch builds
-out of the box using [coinbrew](https://github.com/coin-or/coinbrew).**
+[![Windows Builds](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/windows-ci.yml/badge.svg?branch=master)](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/windows-ci.yml?query=branch%3Amaster)
+[![Linux and MacOS Builds](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/linux-ci.yml/badge.svg?branch=master)](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/linux-ci.yml?query=branch%3Amaster)
+
+**The master branch of the Optimization Suite lists the master branches of
+all its projects, which use the new build system, in
+[.coin-or/config.yml](.coin-or/config.yml). It builds out of the box using
+[coinbrew](https://github.com/coin-or/coinbrew), which fetches, builds, and
+installs the projects; this repository itself has nothing to build. The
+stable/1.9 branch contains the latest stable versions, which use the old build
+system.**
 
 **An expanded version of this README that is updated with more details is available at**
 
@@ -331,39 +336,30 @@ the repository, the development branch is `master`, while branches named
 `stable/x.y` contain long-running stable versions and tags names
 `releases/x.y.z` indicate point releases. 
 
-The source tree for the root of project Xxx currently looks something like this
+In the master branches of the projects, which use the new build system, the
+source tree of project `ProjName` looks something like this.
 
 ```
-ProjName/
-doxydoc/
-INSTALL.md
-README.md
-AUTHORS
-Dependencies 
-configure 
-Makefile.am
-... 
-```
-
-The `ProjName` subdirectory for project `ProjName` looks something like this.
-
-```
+.coin-or/
+  config.yml
+  Dependencies
 src/
 examples/
-MSVisualStudio/
 test/
+doxydoc/
 AUTHORS
-README 
-LICENSE 
-INSTALL 
-configure 
-Makefile.am 
-... 
+README.md
+LICENSE
+configure
+Makefile.am
+...
 ```
 
-The files in this subdirectory are for building the library of the project
-itself, with no dependencies, with the exception of the `MSVisualStudio`
-directory, which contains solution files that include dependencies.  
+`.coin-or/config.yml` lists the other projects that the project depends on,
+and `coinbrew` uses it to fetch them. In the stable branches, which use the old
+build system, the files for building the library of project `ProjName` are
+in a subdirectory `ProjName`, and the root of the repository contains a
+`configure` script that builds the project together with its dependencies.
 
 ## About version numbers 
 
