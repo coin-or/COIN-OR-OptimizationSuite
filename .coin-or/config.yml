@@ -1,0 +1,178 @@
+Description:
+  Slug: COIN-OR-OptimizationSuite
+  ShortName: COIN-OR Optimization Suite
+  LongName: COIN-OR Optimization Suite
+  ShortDescription: A collection of interoperable open source solvers from the COIN-OR repository.
+  LongDescription: |2
+    The COIN-OR Optimization Suite is a collection of interoperable open
+    source solvers from the repository of open source software maintained
+    by the COIN-OR Foundation.
+  Manager: Ted Ralphs
+  Homepage: https://github.com/coin-or/COIN-OR-OptimizationSuite
+  License: Eclipse Public License 2.0
+  LicenseURL: http://www.opensource.org/licenses/EPL-2.0
+  Zenodo:
+  IncludedIn:
+    Package: COIN-OR-OptimizationSuite
+  Language:
+    - C++
+
+Dependencies:
+  - Description: ThirdParty wrapper for building ASL
+    URL: https://github.com/coin-or-tools/ThirdParty-ASL
+    Version: stable/2.0
+    Required: Recommended
+  - Description: ThirdParty wrapper for building GLPK
+    URL: https://github.com/coin-or-tools/ThirdParty-Glpk
+    Version: stable/1.10
+    Required: Recommended
+  - Description: ThirdParty wrapper for building FilterSQP
+    URL: https://github.com/coin-or-tools/ThirdParty-FilterSQP
+    Version: stable/1.3
+    Required: Optional
+  - Description: ThirdParty wrapper for building HSL codes
+    URL: https://github.com/coin-or-tools/ThirdParty-HSL
+    Version: stable/2.2
+    Required: Recommended
+  - Description: ThirdParty wrapper for building Metis
+    URL: https://github.com/coin-or-tools/ThirdParty-Metis
+    Version: stable/2.0
+    Required: Optional
+  - Description: ThirdParty wrapper for building Mumps
+    URL: https://github.com/coin-or-tools/ThirdParty-Mumps
+    Version: stable/3.0
+    Required: Recommended
+  - Description: ThirdParty wrapper for building SoPlex
+    URL: https://github.com/coin-or-tools/ThirdParty-SoPlex
+    Version: stable/1.7
+    Required: Optional
+  - Description: ThirdParty wrapper for building SCIP
+    URL: https://github.com/coin-or-tools/ThirdParty-SCIP
+    Version: stable/1.8
+    Required: Optional
+  - Description: Sample data files
+    URL: https://github.com/coin-or-tools/Data-Sample
+    Version: stable/1.2
+    Required: Recommended
+  - Description: Netlib data files
+    URL: https://github.com/coin-or-tools/Data-Netlib
+    Version: stable/1.2
+    Required: Recommended
+  - Description: MIPLIB 3 data files
+    URL: https://github.com/coin-or-tools/Data-miplib3
+    Version: stable/1.2
+    Required: Recommended
+  - Description: Stochastic programming data files
+    URL: https://github.com/coin-or-tools/Data-Stochastic
+    Version: stable/1.1
+    Required: Recommended
+  - Description: COIN-OR Utilities
+    URL: https://github.com/coin-or/CoinUtils
+    Version: stable/2.11
+    Required: Required
+  - Description: Open Solver Interface
+    URL: https://github.com/coin-or/Osi
+    Version: stable/0.108
+    Required: Required
+  - Description: COIN-OR Linear Programming Solver
+    URL: https://github.com/coin-or/Clp
+    Version: stable/1.17
+    Required: Required
+  - Description: Dynamic simplex LP solver
+    URL: https://github.com/coin-or/DyLP
+    Version: stable/1.10
+    Required: Required
+  - Description: Volume Algorithm
+    URL: https://github.com/coin-or/Vol
+    Version: stable/1.5
+    Required: Required
+  - Description: Cut Generator Library
+    URL: https://github.com/coin-or/Cgl
+    Version: stable/0.60
+    Required: Required
+  - Description: SYMPHONY MILP solver framework
+    URL: https://github.com/coin-or/SYMPHONY
+    Version: stable/5.7
+    Required: Required
+  - Description: COIN-OR Branch-and-Cut
+    URL: https://github.com/coin-or/Cbc
+    Version: stable/2.10
+    Required: Required
+  - Description: Algebraic modeling language embedded in C++
+    URL: https://github.com/coin-or/FlopCpp
+    Version: stable/1.2
+    Required: Required
+  - Description: Stochastic Modeling Interface
+    URL: https://github.com/coin-or/Smi
+    Version: stable/0.96
+    Required: Required
+  - Description: C API library for Clp and Cbc
+    URL: https://github.com/coin-or/CoinMP
+    Version: stable/1.8
+    Required: Required
+  - Description: Branch-Cut-Price Framework
+    URL: https://github.com/coin-or/Bcp
+    Version: stable/1.4
+    Required: Required
+  - Description: Interior Point Optimizer
+    URL: https://github.com/coin-or/Ipopt
+    Version: stable/3.14
+    Required: Required
+  - Description: Abstract Library for Parallel Search
+    URL: https://github.com/coin-or/CHiPPS-ALPS
+    Version: stable/1.5
+    Required: Required
+  - Description: Branch, Constrain, and Price Software
+    URL: https://github.com/coin-or/CHiPPS-BiCePS
+    Version: stable/0.94
+    Required: Required
+  - Description: BiCePS Linear Integer Solver
+    URL: https://github.com/coin-or/CHiPPS-BLIS
+    Version: stable/0.94
+    Required: Required
+  - Description: Decomposition-based MILP solver framework
+    URL: https://github.com/coin-or/Dip
+    Version: stable/0.95
+    Required: Required
+  - Description: Basic Open-source Nonlinear Mixed INteger programming
+    URL: https://github.com/coin-or/Bonmin
+    Version: stable/1.8
+    Required: Required
+  - Description: Convex Over and Under ENvelopes for Nonlinear Estimation
+    URL: https://github.com/coin-or/Couenne
+    Version: stable/0.5
+    Required: Required
+  - Description: Optimization Services
+    URL: https://github.com/coin-or/OS
+    Version: stable/2.10
+    Required: Required
+  - Description: Mixed Integer Bilevel Solver
+    URL: https://github.com/coin-or/MibS
+    Version: stable/1.2
+    Required: Required
+  - Description: CppAD (for algorithmic differentiation in OS)
+    URL: https://cppad.readthedocs.io
+    Required: Recommended
+  - Description: Basic Linear Algebra Subroutines (BLAS)
+    URL: http://www.netlib.org/blas
+    Required: Recommended
+  - Description: Linear Algebra Package (LAPACK)
+    URL: http://www.netlib.org/lapack
+    Required: Recommended
+  - Description: Nauty (for symmetry detection)
+    URL: https://pallini.di.uniroma1.it
+    Required: Optional
+
+DevelopmentStatus:
+  activityStatus: Active
+  maturityLevel: 5
+  testedPlatforms:
+  - operatingSystem: Linux
+    compiler: gcc
+  - operatingSystem: Mac OS X
+    compiler:
+    - gcc
+    - clang
+  - operatingSystem: Microsoft Windows with MSys2
+    compiler:
+    - gcc

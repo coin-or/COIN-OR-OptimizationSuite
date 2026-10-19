@@ -1,5 +1,14 @@
 # COIN-OR OPTIMIZATION SUITE
 
+[![Windows Builds](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/windows-ci.yml/badge.svg?branch=stable/1.9)](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/windows-ci.yml?query=branch%3Astable/1.9)
+[![Linux and MacOS Builds](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/linux-ci.yml/badge.svg?branch=stable/1.9)](https://github.com/coin-or/COIN-OR-OptimizationSuite/actions/workflows/linux-ci.yml?query=branch%3Astable/1.9)
+
+**The stable/1.9 branch of the Optimization Suite lists the latest stable
+versions of its projects, most of which use the old build system, in
+[.coin-or/config.yml](.coin-or/config.yml). The master branch lists the master
+branches of the projects, which use the new build system. Both build out of
+the box using [coinbrew](https://github.com/coin-or/coinbrew).**
+
 The COIN-OR Optimization Suite is a collection of interoperable open source
 solvers from the respository of open source software maintained by the COIN-OR
 Foundation. It consists of the following projects.
