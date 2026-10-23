@@ -68,15 +68,15 @@ Dependencies:
     Required: Recommended
   - Description: COIN-OR Utilities
     URL: https://github.com/coin-or/CoinUtils
-    Version: merge-next
+    Version: master
     Required: Required
   - Description: Open Solver Interface
     URL: https://github.com/coin-or/Osi
-    Version: merge-next
+    Version: master
     Required: Required
   - Description: COIN-OR Linear Programming Solver
     URL: https://github.com/coin-or/Clp
-    Version: merge-next
+    Version: master
     Required: Required
   - Description: Dynamic simplex LP solver
     URL: https://github.com/coin-or/DyLP
@@ -88,7 +88,7 @@ Dependencies:
     Required: Required
   - Description: Cut Generator Library
     URL: https://github.com/coin-or/Cgl
-    Version: merge-next
+    Version: master
     Required: Required
   - Description: SYMPHONY MILP solver framework
     URL: https://github.com/coin-or/SYMPHONY
@@ -96,7 +96,7 @@ Dependencies:
     Required: Required
   - Description: COIN-OR Branch-and-Cut
     URL: https://github.com/coin-or/Cbc
-    Version: merge-next
+    Version: master
     Required: Required
   - Description: Algebraic modeling language embedded in C++
     URL: https://github.com/coin-or/FlopCpp
